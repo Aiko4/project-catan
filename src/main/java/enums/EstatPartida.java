@@ -1,4 +1,4 @@
-package hib;
+package enums;
 
 public enum EstatPartida {
 	PREPARACIO,
