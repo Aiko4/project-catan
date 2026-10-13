@@ -135,31 +135,4 @@ public class Partida {
 		this.lladrePendent = lladrePendent;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(dataInici, Boolean.valueOf(dausTirats), estatPartida, id, Boolean.valueOf(lladrePendent),
-				puntsPerGuanyar, ronda, ultimaTirada);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Partida other = (Partida) obj;
-		return Objects.equals(dataInici, other.dataInici) && dausTirats == other.dausTirats
-				&& estatPartida == other.estatPartida && Objects.equals(id, other.id)
-				&& lladrePendent == other.lladrePendent && Objects.equals(puntsPerGuanyar, other.puntsPerGuanyar)
-				&& Objects.equals(ronda, other.ronda) && Objects.equals(ultimaTirada, other.ultimaTirada);
-	}
-	
-	
-	
-	
-	
-	
-	
 }
