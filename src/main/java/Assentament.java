@@ -1,5 +1,4 @@
 import java.util.Objects;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -28,15 +27,15 @@ abstract class Assentament extends Construccio {
 	@NotNull
 	@Column(name="vertex",nullable=false)
 	private Vertex vertex;
-	
+
 	@NotNull
 	@Column(name="tipous", nullable=false)
 	private String tipus;
-	
+
 	public Assentament() {
 		
 	}
-	
+
 	public Assentament(Integer id,Vertex vertex, String tipus) {
 		this.id=id;
 		this.vertex=vertex;

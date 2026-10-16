@@ -12,11 +12,10 @@ public class Main {
 		
 		
 		ArrayList<String> terrenys= new ArrayList <>(Arrays.asList("MUNTANYA","MUNTANYA","MUNTANYA","TURO","TURO","TURO","BOSC","BOSC","BOSC","BOSC","DESERT","CAMPS","CAMPS","CAMPS","PASTURES","CAMPS","PASTURES","PASTURES","PASTURES"));
-		Collections.shuffle(terrenys);
-		
-		
+		Collections.shuffle(terrenys);		
 		//assignar terrenys a hexagons
 		
 		//assignar números als hexagons
+		
 	}
 }
