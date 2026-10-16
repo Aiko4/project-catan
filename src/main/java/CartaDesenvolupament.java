@@ -11,4 +11,6 @@ public class CartaDesenvolupament {
 	private boolean usada;
 	private Integer rondaCompra;
 	
+		
+	
 }

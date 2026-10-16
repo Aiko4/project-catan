@@ -63,6 +63,12 @@ public class Aresta {
 		Aresta other = (Aresta) obj;
 		return Objects.equals(codi, other.codi) && Objects.equals(id, other.id);
 	}
+
+	@Override
+	public String toString() {
+		return "Aresta [id=" + id + ", codi=" + codi + "]";
+	}
+	
 	
 	
 	

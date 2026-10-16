@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 import org.hibernate.annotations.ColumnDefault;
 
 import enums.ColorJugador;
@@ -88,6 +90,31 @@ public class Jugador {
 
 	public void setCavallersJugats(Integer cavallersJugats) {
 		this.cavallersJugats = cavallersJugats;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cavallersJugats, colorJugador, id, nom, ordreTorn);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Jugador other = (Jugador) obj;
+		return Objects.equals(cavallersJugats, other.cavallersJugats) && colorJugador == other.colorJugador
+				&& Objects.equals(id, other.id) && Objects.equals(nom, other.nom)
+				&& Objects.equals(ordreTorn, other.ordreTorn);
+	}
+
+	@Override
+	public String toString() {
+		return "Jugador [id=" + id + ", nom=" + nom + ", colorJugador=" + colorJugador + ", ordreTorn=" + ordreTorn
+				+ ", cavallersJugats=" + cavallersJugats + "]";
 	}
 	
 	

@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 import enums.TipusTerreny;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -102,9 +104,34 @@ public class Hexagon {
 	public void setR(Integer r) {
 		this.r = r;
 	}
+
+	@Override
+	public String toString() {
+		return "Hexagon [id=" + id + ", codi=" + codi + ", terreny=" + terreny + ", numero=" + numero + ", q=" + q
+				+ ", r=" + r + ", getId()=" + getId() + ", getCodi()=" + getCodi() + ", getTerreny()=" + getTerreny()
+				+ ", getNumero()=" + getNumero() + ", getQ()=" + getQ() + ", getR()=" + getR() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codi, id, numero, q, r, terreny);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Hexagon other = (Hexagon) obj;
+		return Objects.equals(codi, other.codi) && Objects.equals(id, other.id) && Objects.equals(numero, other.numero)
+				&& Objects.equals(q, other.q) && Objects.equals(r, other.r) && terreny == other.terreny;
+	}
 	
-	
-	
+
 	
 	
 }

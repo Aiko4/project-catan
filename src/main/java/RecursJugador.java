@@ -3,6 +3,8 @@ import java.util.Objects;
 import enums.TipusRecurs;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +14,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="recursJugador", uniqueConstraints = @UniqueConstraint(columnNames = {"id_jugador","tipus_jugador"}))
+
 public class RecursJugador {
 	
 	@Id
@@ -21,6 +24,7 @@ public class RecursJugador {
 	
 	@NotNull
 	@Column(name="tipus_jugador",nullable=false)
+	@Enumerated(EnumType.STRING)
 	private TipusRecurs tipus;
 	
 	@NotNull
@@ -73,7 +77,7 @@ public class RecursJugador {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RecursJugador other = (RecursJugador) obj;
+		RecursJugador other = (	RecursJugador) obj;
 		return Objects.equals(id, other.id) && Objects.equals(quantitat, other.quantitat) && tipus == other.tipus;
 	}
 	
