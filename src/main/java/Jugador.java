@@ -42,8 +42,9 @@ public class Jugador {
 	@ColumnDefault("0")
 	private Integer cavallersJugats = 0;
 	
-	public Jugador() {
-		
+	
+	// constructor buit per a Hibernate
+	public Jugador() {	
 	}
 	
 	public Jugador(String nom, ColorJugador colorJugador, Integer ordreTorn) {
