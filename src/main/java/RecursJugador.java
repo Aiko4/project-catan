@@ -80,6 +80,15 @@ public class RecursJugador {
 		RecursJugador other = (	RecursJugador) obj;
 		return Objects.equals(id, other.id) && Objects.equals(quantitat, other.quantitat) && tipus == other.tipus;
 	}
+
+	@Override
+	public String toString() {
+		return "RecursJugador [id=" + id + ", tipus=" + tipus + ", quantitat=" + quantitat + ", getId()=" + getId()
+				+ ", getTipus()=" + getTipus() + ", getQuantitat()=" + getQuantitat() + ", hashCode()=" + hashCode()
+				+ ", getClass()=" + getClass() + ", toString()=" + super.toString() + "]";
+	}
+	
+	
 	
 	
 	

@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 import org.hibernate.annotations.Check;
 
 import jakarta.persistence.Column;
@@ -24,5 +26,48 @@ public class HexagonVertex {
 	@Min(0)
 	@Max(5)
 	private Integer posicio;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getPosicio() {
+		return posicio;
+	}
+
+	public void setPosicio(Integer posicio) {
+		this.posicio = posicio;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, posicio);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HexagonVertex other = (HexagonVertex) obj;
+		return Objects.equals(id, other.id) && Objects.equals(posicio, other.posicio);
+	}
+
+	@Override
+	public String toString() {
+		return "HexagonVertex [id=" + id + ", posicio=" + posicio + ", getId()=" + getId() + ", getPosicio()="
+				+ getPosicio() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass() + ", toString()="
+				+ super.toString() + "]";
+	}
+	
+ 
+	
 }
 	
