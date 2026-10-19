@@ -20,7 +20,6 @@
 		<mapping class="introHibernate.Assentament"/>
 		<mapping class="introHibernate.Carretera"/>
 		<mapping class="introHibernate.CartaDesenvolupament"/>
-		<mapping class="introHibernate.Ciutat"/>
 		<mapping class="introHibernate.Construccio"/>
 		<mapping class="introHibernate.Hexagon"/>
 		<mapping class="introHibernate.HexagonVertex"/>

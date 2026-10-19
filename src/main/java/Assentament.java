@@ -33,7 +33,6 @@ abstract class Assentament extends Construccio {
 	private String tipus;
 
 	public Assentament() {
-		
 	}
 
 	public Assentament(Integer id,Vertex vertex, String tipus) {
