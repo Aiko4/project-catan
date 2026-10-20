@@ -11,10 +11,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "vertex")
 public class Vertex {
-	
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
+	@Column(name = "id", nullable = false, unique=true)
 	private int id;
 	
 	@Column(name = "codi", nullable = false, unique = true)
