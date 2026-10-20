@@ -5,9 +5,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -29,7 +32,6 @@ public class Hexagon {
 	@Column(name="terreny", nullable=false)
 	private TipusTerreny terreny;
 	
-	
 	@NotNull
 	@Column(name="num_hexagon", nullable=false)
 	private Integer numero;
@@ -42,7 +44,9 @@ public class Hexagon {
 	@Column(name="r_hexagon", nullable=false)
 	private Integer r;
 	
-	
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "id_partida")
+	private Integer idPartida;
 	
 	public Hexagon() {
 		

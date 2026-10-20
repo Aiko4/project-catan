@@ -3,10 +3,14 @@ import com.google.protobuf.Generated;
 import enums.TipusCarta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="carta_desenvolupament")
@@ -17,12 +21,24 @@ public class CartaDesenvolupament {
 	@Column(name = "id", nullable = false, unique = true)
 	private Integer id;
 	
-	
+	@NotNull
+	@Column(name = "tipusCarta", nullable = false, length = 20)
 	private TipusCarta tipus;
+	
+	@NotNull
+	@Column(name = "usada", nullable = false)
 	private boolean usada;
+	
+	@NotNull
+	@Column(name = "rondaCompra", nullable = false)
 	private Integer rondaCompra;
 	
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "id_partida")
+	private Integer idPartida;
 	
+	
+	// constructor buit hibernate
 	public CartaDesenvolupament() {		
 	}
 	

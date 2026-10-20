@@ -1,15 +1,22 @@
+import java.util.ArrayList;
 import java.util.Objects;
 
 import org.hibernate.annotations.ColumnDefault;
 
 import enums.ColorJugador;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,20 +29,35 @@ public class Jugador {
 	@Column(name="id_jugador",nullable=false,unique=true)
 	private Integer id;
 	
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "id_partida")
+	private Integer idPartida;
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	private boolean isGuanyador;
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	private boolean isActiu;
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	private boolean isLladre;
+	
 	@NotNull
 	@Column(name="nom_jugador",nullable=false, length = 50)
 	private String nom;
 	
+	@OneToMany(mappedBy = "idJugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private ArrayList<Construccio> construccions;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name="color_jugador",nullable=false)
+	@Column(name="color_jugador",nullable=false, length = 10)
 	private ColorJugador colorJugador;
 	
 	
 	@NotNull
 	@Column(name="ordre_torn",nullable=false)
 	private Integer ordreTorn;
-	
 	
 	@NotNull
 	@Column(name="cavallers_jugats",nullable=false)
