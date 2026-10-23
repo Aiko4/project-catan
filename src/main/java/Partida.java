@@ -1,6 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Objects;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -8,20 +6,16 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import enums.ColorJugador;
 import enums.EstatPartida;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 
 @Entity
@@ -33,40 +27,14 @@ public class Partida {
 	@Column(name="id_partida",nullable=false,unique=true)
 	private Integer id;
 	
-	@OneToMany(mappedBy = "idPartida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Jugador> jugadors;
-	
-	@OneToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "isGuanyador", nullable = true, unique = false)
-	private Jugador guanyador;
-	
-	@OneToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "isActiu", nullable = true, unique = false)
-	private Jugador actiu;
-	
-	@OneToOne(fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "isLladre", nullable = true, unique = false)
-	private Jugador lladre;
-	
-	@OneToMany(mappedBy = "idPartida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Aresta> arestes;
-		
-	@OneToMany(mappedBy = "idPartida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Vertex> vertexs;
-	
-	@OneToMany(mappedBy = "idPartida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Hexagon> hexagons;
-	
-	@OneToMany(mappedBy = "idPartida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private ArrayList<CartaDesenvolupament> pilaCartes;
-	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name="estat_partida",nullable=false, length = 20)
+	@Column(name="estat_partida",nullable=false)
 	private EstatPartida estatPartida;
 	
-	@NotNull
+	@NotNull(message = "La data d'inici ha ser obligatoriament")
 	@CreationTimestamp
+	@PastOrPresent(message = "La data d'inici no pot ser futura.")
     @Column(name = "data_inici", updatable = false)
 	private LocalDate dataInici;
 	

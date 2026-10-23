@@ -29,6 +29,16 @@ public class Aresta {
 	@JoinColumn(name = "id_partida")
 	private Integer idPartida;
 	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "id_vertexA")
+	private Vertex vertexA;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "id_vertexB")
+	private Vertex vertexB;
+	
+	
+	
 	public Aresta() {
 		
 	}
