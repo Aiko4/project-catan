@@ -28,10 +28,9 @@ public class Vertex {
 	private int codi;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "id_partida")
-	private Integer idPartida;
+	@JoinColumn(name = "partida")
+	private Partida partida;
 	
-    
 	@OneToMany(mappedBy="vertexA", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Aresta> arestesA;
 	

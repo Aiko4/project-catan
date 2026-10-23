@@ -29,6 +29,8 @@ public class Hexagon {
 	@Column(name="codi_hexagon", nullable=false)
 	private Integer codi;
 	
+	private boolean hasLladre;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="terreny", nullable=false)
@@ -47,8 +49,8 @@ public class Hexagon {
 	private Integer r;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "id_partida")
-	private Integer idPartida;
+	@JoinColumn(name = "partida")
+	private Partida partida;
 	
 	@OneToMany(mappedBy = "hexagon")
 	private List<HexagonVertex> vertexsHexagon;

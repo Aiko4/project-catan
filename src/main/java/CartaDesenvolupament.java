@@ -34,8 +34,8 @@ public class CartaDesenvolupament {
 	private Integer rondaCompra;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "id_partida")
-	private Integer idPartida;
+	@JoinColumn(name = "partida_id", nullable = false)
+	private Partida partida;
 	
 	
 	// constructor buit hibernate

@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
+import enums.TipusRecurs;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -30,30 +32,26 @@ public class Jugador {
 	private Integer id;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "id_partida")
-	private Integer idPartida;
+	@JoinColumn(name = "partida_id", nullable = false)
+	private Partida partida;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	private boolean isGuanyador;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	private boolean isActiu;
-	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	private boolean isLladre;
 	
 	@NotNull
 	@Column(name="nom_jugador",nullable=false, length = 50)
 	private String nom;
 	
-	@OneToMany(mappedBy = "idJugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private ArrayList<Construccio> construccions;
+	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private ArrayList<Construccio> construccionsJugador;
+	
+	private HashMap<TipusRecurs, RecursJugador> inventari;
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="color_jugador",nullable=false, length = 10)
 	private ColorJugador colorJugador;
-	
 	
 	@NotNull
 	@Column(name="ordre_torn",nullable=false)

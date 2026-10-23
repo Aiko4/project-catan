@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -6,13 +8,18 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import enums.ColorJugador;
 import enums.EstatPartida;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -37,6 +44,33 @@ public class Partida {
 	@PastOrPresent(message = "La data d'inici no pot ser futura.")
     @Column(name = "data_inici", updatable = false)
 	private LocalDate dataInici;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "jugadorGuanyador_id", unique = true)
+	private Jugador guanyador;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "jugadorActiu_id", unique = true)
+	private Jugador actiu;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "hexagonLladre_id", unique = true)
+	private Hexagon lladre;
+	
+	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private HashSet<Jugador> jugadors;
+	
+	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private ArrayList<Hexagon> hexagons;
+	
+	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private ArrayList<Vertex> vertexs;
+	
+	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private ArrayList<Aresta> arestes;
+	
+	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private ArrayList<CartaDesenvolupament> pilaCartes;
 	
 	@NotNull
 	@Column(name="ronda",nullable=false)
