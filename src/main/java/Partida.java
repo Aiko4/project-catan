@@ -61,14 +61,15 @@ public class Partida {
 	private HashSet<Jugador> jugadors;
 	
 	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private ArrayList<Hexagon> hexagons;
+	private HashSet<Hexagon> hexagons;
 	
 	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private ArrayList<Vertex> vertexs;
+	private HashSet<Vertex> vertexs;
 	
 	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private ArrayList<Aresta> arestes;
-	
+	private HashSet<Aresta> arestes;
+
+	//Verificar si es poden repetir cartes per saber si és ArrayList o HashSet
 	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private ArrayList<CartaDesenvolupament> pilaCartes;
 	

@@ -3,23 +3,10 @@ import java.util.HashMap;
 import java.util.Objects;
 import enums.TipusRecurs;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import enums.ColorJugador;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -45,7 +32,10 @@ public class Jugador {
 	
 	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private ArrayList<Construccio> construccionsJugador;
-	
+
+	@OneToMany(mappedBy = "jugador",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+	@MapKey(name = "tipusRecurs")
+	@MapKeyEnumerated(EnumType.STRING)
 	private HashMap<TipusRecurs, RecursJugador> inventari;
 	
 	@NotNull

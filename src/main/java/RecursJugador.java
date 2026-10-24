@@ -36,7 +36,7 @@ public class RecursJugador {
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "id_jugador")
-	private Integer id_jugador;
+	private Jugador jugador;
 	
 	public RecursJugador() {
 		
