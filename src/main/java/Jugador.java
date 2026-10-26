@@ -38,6 +38,9 @@ public class Jugador {
 	@MapKeyEnumerated(EnumType.STRING)
 	private HashMap<TipusRecurs, RecursJugador> inventari;
 	
+	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL)
+    private ArrayList<CartaDesenvolupament> ma = new ArrayList<>();
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="color_jugador",nullable=false, length = 10)

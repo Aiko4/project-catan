@@ -23,7 +23,7 @@ abstract class Construccio {
 	private int id;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "jugador_id")
+	@JoinColumn(name = "id_jugador")
 	private Jugador jugador;
 
 }

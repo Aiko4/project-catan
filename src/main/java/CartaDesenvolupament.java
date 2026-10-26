@@ -37,6 +37,10 @@ public class CartaDesenvolupament {
 	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida;
 	
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "jugador_id", nullable = false)
+	private Jugador jugador;
+	
 	
 	// constructor buit hibernate
 	public CartaDesenvolupament() {		
