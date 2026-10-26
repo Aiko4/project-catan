@@ -29,6 +29,7 @@ public class Hexagon {
 	@Column(name="codi_hexagon", nullable=false)
 	private Integer codi;
 	
+	
 	private boolean hasLladre;
 	
 	@NotNull

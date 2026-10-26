@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -37,6 +38,8 @@ public class Aresta {
 	@JoinColumn(name = "id_vertexB")
 	private Vertex vertexB;
 	
+	@OneToOne(mappedBy = "aresta")
+	private Carretera carretera;
 	
 	public Aresta() {
 		

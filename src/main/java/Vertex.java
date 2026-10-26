@@ -31,7 +31,9 @@ public class Vertex {
 
 	@OneToMany(mappedBy = "vertex")
 	private HashSet<HexagonVertex> hexagonVertex;
-
+	
+	@OneToOne(mappedBy = "vertex")
+	private Assentament assentament;
 	
 	public Vertex() {
 	}

@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -24,8 +26,8 @@ abstract class Assentament extends Construccio {
 	@Column(name="id_vertex",nullable=false,unique=true)
 	private Integer id;
 	
-	@NotNull
-	@Column(name="vertex",nullable=false)
+	@OneToOne
+	@JoinColumn(name="vertex_id",unique = true, nullable = false)
 	private Vertex vertex;
 
 	@NotNull

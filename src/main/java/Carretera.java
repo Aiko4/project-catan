@@ -3,13 +3,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "carretera")
 public class Carretera extends Construccio {
 	
-	@Column(name = "aresta", nullable = false)
+	@OneToOne
+    @JoinColumn(name = "id_aresta", unique = true, nullable = false)
 	private Aresta aresta;
 	
 	public Carretera() {		
