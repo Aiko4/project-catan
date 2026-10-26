@@ -13,21 +13,13 @@
 
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.highlight_sql">true</property>
         
 		<!-- Mapping each entity defined in src/main/java -->
 		
-		<mapping class="introHibernate.Aresta"/>
-		<mapping class="introHibernate.Assentament"/>
-		<mapping class="introHibernate.Carretera"/>
-		<mapping class="introHibernate.CartaDesenvolupament"/>
-		<mapping class="introHibernate.Construccio"/>
-		<mapping class="introHibernate.Hexagon"/>
-		<mapping class="introHibernate.HexagonVertex"/>
-		<mapping class="introHibernate.Jugador"/>
-		<mapping class="introHibernate.HexagonVertex"/>
+
 		<mapping class="introHibernate.Partida"/>
-		<mapping class="introHibernate.RecursJugador"/>
-		<mapping class="introHibernate.Vertex"/>
+
 
     </session-factory>
 </hibernate-configuration>

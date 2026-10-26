@@ -30,11 +30,11 @@ public class HexagonVertex {
 	@Max(5)
 	private Integer posicio;
 	
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hexagon_id")
     private Hexagon hexagon;
 	
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "vertex_id")
     private Vertex vertex;
 

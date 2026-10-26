@@ -26,7 +26,7 @@ public class Aresta {
 	@Column(name="codi_aresta", nullable=false)
 	private Integer codi;
 	
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "partida")
 	private Partida partida;
 	
