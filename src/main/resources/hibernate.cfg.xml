@@ -15,10 +15,20 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.highlight_sql">true</property>
         
-		<!-- Mapping each entity defined in src/main/java -->
+		<!-- Mapping each entity defined in src/main/java   CREC QUE EL DAOHIBERNATE.XML NO CAL DE MOMENT EL TREURIA -->
 		
 
-		<mapping class="introHibernate.Partida"/>
+		<mapping class="Aresta"/>
+		<mapping class="Assentament"/>
+		<mapping class="Carretera"/>
+		<mapping class="CartaDesenvolupament"/>
+		<mapping class="Construccio"/>
+		<mapping class="Hexagon"/>
+		<mapping class="Jugador"/>
+		<mapping class="HexagonVertex"/>
+		<mapping class="Partida"/>
+		<mapping class="RecursJugador"/>
+		<mapping class="Vertex"/>
 
 
     </session-factory>

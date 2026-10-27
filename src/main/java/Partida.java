@@ -25,6 +25,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 
 
+
+
 @Entity
 @Table(name="partida")
 public class Partida {
