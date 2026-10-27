@@ -59,16 +59,16 @@ public class Partida {
 	@JoinColumn(name = "hexagonLladre_id", unique = true)
 	private Hexagon lladre;
 	
-	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private HashSet<Jugador> jugadors;
 	
-	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private HashSet<Hexagon> hexagons;
 	
-	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private HashSet<Vertex> vertexs;
 	
-	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private HashSet<Aresta> arestes;
 
 	//Verificar si es poden repetir cartes per saber si és ArrayList o HashSet

@@ -20,11 +20,7 @@ public class Jugador {
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id", nullable = false)
-	private Partida partida;
-	
-	private boolean isGuanyador;
-	
-	private boolean isActiu;
+	private Partida partida_id;
 	
 	@NotNull
 	@Column(name="nom_jugador",nullable=false, length = 50)

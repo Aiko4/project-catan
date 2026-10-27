@@ -20,8 +20,8 @@ public class Vertex {
 	private int codi;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "partida")
-	private Partida partida;
+	@JoinColumn(name = "partida_id")
+	private Partida partida_id;
 	
 	@OneToMany(mappedBy="vertexA", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private HashSet<Aresta> arestesA;

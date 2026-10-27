@@ -27,8 +27,8 @@ public class Aresta {
 	private Integer codi;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "partida")
-	private Partida partida;
+	@JoinColumn(name = "partida_id")
+	private Partida partida_id;
 	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_vertexA")

@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Objects;
 
 import enums.TipusTerreny;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -28,10 +30,7 @@ public class Hexagon {
 	@NotNull
 	@Column(name="codi_hexagon", nullable=false)
 	private Integer codi;
-	
-	
-	private boolean hasLladre;
-	
+		
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="terreny", nullable=false)
@@ -50,8 +49,8 @@ public class Hexagon {
 	private Integer r;
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "partida")
-	private Partida partida;
+	@JoinColumn(name = "partida_id")
+	private Partida partida_id;
 	
 	@OneToMany(mappedBy = "hexagon")
 	private List<HexagonVertex> vertexsHexagon;
