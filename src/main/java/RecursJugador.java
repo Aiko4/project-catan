@@ -22,7 +22,7 @@ public class RecursJugador {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_jugador",nullable=false, unique=true)
+	@Column(name="id_recurs_jugador",nullable=false, unique=true)
 	private Integer id;
 	
 	@NotNull

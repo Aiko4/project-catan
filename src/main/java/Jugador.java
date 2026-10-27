@@ -34,7 +34,7 @@ public class Jugador {
 	private ArrayList<Construccio> construccionsJugador;
 
 	@OneToMany(mappedBy = "jugador",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
-	@MapKey(name = "tipusRecurs")
+	@MapKey(name = "tipus")
 	@MapKeyEnumerated(EnumType.STRING)
 	private HashMap<TipusRecurs, RecursJugador> inventari;
 	
