@@ -22,6 +22,10 @@ public class Jugador {
 	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida_id;
 	
+	//private boolean isGuanyador;
+	
+	//private boolean isActiu;
+	
 	@NotNull
 	@Column(name="nom_jugador",nullable=false, length = 50)
 	private String nom;

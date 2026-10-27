@@ -30,7 +30,9 @@ public class Hexagon {
 	@NotNull
 	@Column(name="codi_hexagon", nullable=false)
 	private Integer codi;
-		
+	
+	//private boolean hasLladre;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="terreny", nullable=false)
