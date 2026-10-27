@@ -91,7 +91,6 @@ public class Partida {
 	@Column(name="lladre_pendent",nullable=false)
 	private boolean lladrePendent;
 	
-	
 	public Partida() {
 
 	}
