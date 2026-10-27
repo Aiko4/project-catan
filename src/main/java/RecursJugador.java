@@ -26,7 +26,7 @@ public class RecursJugador {
 	private Integer id;
 	
 	@NotNull
-	@Column(name="tipus_jugador",nullable=false)
+	@Column(name="tipus_jugador",nullable=false, length=20)
 	@Enumerated(EnumType.STRING)
 	private TipusRecurs tipus;
 	

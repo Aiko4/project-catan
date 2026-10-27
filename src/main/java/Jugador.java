@@ -43,7 +43,7 @@ public class Jugador {
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name="color_jugador",nullable=false, length = 10)
+	@Column(name="color_jugador",nullable=false, length = 15)
 	private ColorJugador colorJugador;
 	
 	@NotNull

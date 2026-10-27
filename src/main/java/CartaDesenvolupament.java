@@ -1,5 +1,3 @@
-import com.google.protobuf.Generated;
-
 import enums.TipusCarta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

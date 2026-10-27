@@ -3,10 +3,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
-import enums.ColorJugador;
 import enums.EstatPartida;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,8 +23,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 
 
-
-
 @Entity
 @Table(name="partida")
 public class Partida {
@@ -38,25 +34,25 @@ public class Partida {
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name="estat_partida",nullable=false)
+	@Column(name="estat_partida",nullable=false, length=20)
 	private EstatPartida estatPartida;
 	
 	@NotNull(message = "La data d'inici ha ser obligatoriament")
 	@CreationTimestamp
 	@PastOrPresent(message = "La data d'inici no pot ser futura.")
-    @Column(name = "data_inici", updatable = false)
+    @Column(name = "data_inici", updatable = false, nullable=false)
 	private LocalDate dataInici;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "jugadorGuanyador_id", unique = true)
+	@JoinColumn(name = "jugadorGuanyador_id", unique = true, nullable=true)
 	private Jugador guanyador;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "jugadorActiu_id", unique = true)
+	@JoinColumn(name = "jugadorActiu_id", unique = true, nullable=true)
 	private Jugador actiu;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hexagonLladre_id", unique = true)
+	@JoinColumn(name = "hexagonLladre_id", unique = true, nullable=true)
 	private Hexagon lladre;
 	
 	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

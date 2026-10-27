@@ -31,7 +31,7 @@ abstract class Assentament extends Construccio {
 	private Vertex vertex;
 
 	@NotNull
-	@Column(name="tipus", nullable=false)
+	@Column(name="tipus", nullable=false, length=15)
 	private String tipus;
 
 	public Assentament() {
