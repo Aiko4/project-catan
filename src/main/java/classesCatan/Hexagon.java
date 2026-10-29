@@ -1,3 +1,4 @@
+package classesCatan;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,10 +56,18 @@ public class Hexagon {
 	@OneToMany(mappedBy = "hexagon")
 	private List<HexagonVertex> vertexsHexagon;
 	
-	public Hexagon() {
-		
+	// constructor hibernate
+	public Hexagon() {	
 	}
 	
+	// constructor import
+	public Hexagon(Integer codi, Integer q, Integer r) {
+		this.codi = codi;
+		this.q = q;
+		this.r = r;
+	}
+	
+	// constructor DAO
 	public Hexagon(Integer codi, TipusTerreny terreny, Integer numero, Integer q, Integer r) {
 		this.codi = codi;
 		this.terreny = terreny;

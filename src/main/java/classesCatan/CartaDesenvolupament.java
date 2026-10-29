@@ -1,3 +1,4 @@
+package classesCatan;
 import enums.TipusCarta;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

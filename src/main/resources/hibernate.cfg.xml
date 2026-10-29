@@ -29,6 +29,8 @@
 		<mapping class="Partida"/>
 		<mapping class="RecursJugador"/>
 		<mapping class="Vertex"/>
+		<mapping class="Poblat"/>
+		<mapping class="Ciutat"/>
 
 
     </session-factory>

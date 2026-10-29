@@ -1,3 +1,4 @@
+package classesCatan;
 import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -13,12 +14,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-//S'utilitza SINGLE TABLE per a les subclasses de Carretera i Assentament
-
+//S'utilitza SINGLE TABLE per a les subclasses de Carretera i Assentament --> NO ES POT BARREJAR SINGLE TABLE AMB JOINED, PARTEIXEN DE CONSTRUCCIO, QUE FA SERVIR JOINED (REVISAR!!)
+// de moment he tret la single table perque tampoc fa res
 @Entity
 @Table(name = "assentament")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipusAssentament", discriminatorType = DiscriminatorType.STRING, length = 10)
 abstract class Assentament extends Construccio {
 	
 	@Id
@@ -30,17 +29,13 @@ abstract class Assentament extends Construccio {
 	@JoinColumn(name="vertex_id",unique = true, nullable = false)
 	private Vertex vertex;
 
-	@NotNull
-	@Column(name="tipus", nullable=false, length=15)
-	private String tipus;
-
+	
 	public Assentament() {
 	}
 
-	public Assentament(Integer id,Vertex vertex, String tipus) {
+	public Assentament(Integer id,Vertex vertex) {
 		this.id=id;
 		this.vertex=vertex;
-		this.tipus=tipus;
 	}
 
 	public Integer getId() {
@@ -59,17 +54,9 @@ abstract class Assentament extends Construccio {
 		this.vertex = vertex;
 	}
 
-	public String getTipus() {
-		return tipus;
-	}
-
-	public void setTipus(String tipus) {
-		this.tipus = tipus;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, tipus, vertex);
+		return Objects.hash(id, vertex);
 	}
 
 	@Override
@@ -81,17 +68,11 @@ abstract class Assentament extends Construccio {
 		if (getClass() != obj.getClass())
 			return false;
 		Assentament other = (Assentament) obj;
-		return Objects.equals(id, other.id) && Objects.equals(tipus, other.tipus)
-				&& Objects.equals(vertex, other.vertex);
+		return Objects.equals(id, other.id) && Objects.equals(vertex, other.vertex);
 	}
 
 	@Override
 	public String toString() {
-		return "Assentament [id=" + id + ", vertex=" + vertex + ", tipus=" + tipus + "]";
+		return "Assentament [id=" + id + ", vertex=" + vertex + ", tipus=" + "]";
 	}
-	
-	
-	
-	
-	
 }

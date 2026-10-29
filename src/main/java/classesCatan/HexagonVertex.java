@@ -1,3 +1,4 @@
+package classesCatan;
 import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +36,17 @@ public class HexagonVertex {
     @JoinColumn(name = "vertex_id")
     private Vertex vertex;
 
+    // constructor hibernate
+    public HexagonVertex() {
+    }
+    
+    // constructor import
+    public HexagonVertex(Integer posicio, Hexagon hexagon, Vertex vertex) {
+    	this.posicio = posicio;
+    	this.hexagon = hexagon;
+    	this.vertex = vertex;
+    }
+    
 	public Integer getId() {
 		return id;
 	}

@@ -1,3 +1,4 @@
+package classesCatan;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -41,8 +42,16 @@ public class Aresta {
 	@OneToOne(mappedBy = "aresta")
 	private Carretera carretera;
 	
+	// constructor hibernate
 	public Aresta() {
 		
+	}
+	
+	// constructor per a importar arestes
+	public Aresta(Integer codi, Vertex vertexA,  Vertex vertexB) {
+		this.codi = codi;
+		this.vertexA = vertexA;
+		this.vertexB = vertexB;
 	}
 	
 	public Aresta(Integer codi) {

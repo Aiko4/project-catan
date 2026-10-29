@@ -1,8 +1,9 @@
+package classesCatan;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("POBLAT")
-public class Poblat extends Assentament {
+@DiscriminatorValue("CIUTAT")
+public class Ciutat extends Assentament {
 
 }

@@ -1,3 +1,4 @@
+package classesCatan;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -12,10 +13,10 @@ public class Vertex {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique=true)
-	private int id;
+	private int id; // no hauria de ser Integer? o es int perque pot ser null?
 	
 	@Column(name = "codi", nullable = false, unique = true)
-	private int codi;
+	private int codi; // no hauria de ser Integer? o es int perque pot ser null?
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id")
@@ -33,11 +34,12 @@ public class Vertex {
 	@OneToOne(mappedBy = "vertex")
 	private Assentament assentament;
 	
+	// constructor hibernate
 	public Vertex() {
 	}
 	
-	public Vertex (int id, int codi) {
-		this.id = id;
+	// constructor import i DAO
+	public Vertex (int codi) { // l'id es autogenerat, no s'ha de ficar al constructor
 		this.codi = codi;
 	}
 

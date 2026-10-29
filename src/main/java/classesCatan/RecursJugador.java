@@ -1,3 +1,4 @@
+package classesCatan;
 import java.util.Objects;
 
 import enums.TipusRecurs;
