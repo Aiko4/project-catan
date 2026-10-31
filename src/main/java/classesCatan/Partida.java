@@ -170,6 +170,70 @@ public class Partida {
 		this.lladrePendent = lladrePendent;
 	}
 
+	public Jugador getGuanyador() {
+		return guanyador;
+	}
+
+	public void setGuanyador(Jugador guanyador) {
+		this.guanyador = guanyador;
+	}
+
+	public Jugador getActiu() {
+		return actiu;
+	}
+
+	public void setActiu(Jugador actiu) {
+		this.actiu = actiu;
+	}
+
+	public Hexagon getLladre() {
+		return lladre;
+	}
+
+	public void setLladre(Hexagon lladre) {
+		this.lladre = lladre;
+	}
+
+	public HashSet<Jugador> getJugadors() {
+		return jugadors;
+	}
+
+	public void setJugadors(HashSet<Jugador> jugadors) {
+		this.jugadors = jugadors;
+	}
+
+	public HashSet<Hexagon> getHexagons() {
+		return hexagons;
+	}
+
+	public void setHexagons(HashSet<Hexagon> hexagons) {
+		this.hexagons = hexagons;
+	}
+
+	public HashSet<Vertex> getVertexs() {
+		return vertexs;
+	}
+
+	public void setVertexs(HashSet<Vertex> vertexs) {
+		this.vertexs = vertexs;
+	}
+
+	public HashSet<Aresta> getArestes() {
+		return arestes;
+	}
+
+	public void setArestes(HashSet<Aresta> arestes) {
+		this.arestes = arestes;
+	}
+
+	public ArrayList<CartaDesenvolupament> getPilaCartes() {
+		return pilaCartes;
+	}
+
+	public void setPilaCartes(ArrayList<CartaDesenvolupament> pilaCartes) {
+		this.pilaCartes = pilaCartes;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(dataInici, Boolean.valueOf(dausTirats), estatPartida, id, Boolean.valueOf(lladrePendent),

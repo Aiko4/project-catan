@@ -13,10 +13,10 @@ public class Vertex {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique=true)
-	private int id; // no hauria de ser Integer? o es int perque pot ser null?
+	private Integer id; // no hauria de ser Integer? o es int perque pot ser null? -> si, ha de ser Integer sinò no pot ser null
 	
 	@Column(name = "codi", nullable = false, unique = true)
-	private int codi; // no hauria de ser Integer? o es int perque pot ser null?
+	private Integer codi; // no hauria de ser Integer? o es int perque pot ser null? -> si, ha de ser Integer sinò no pot ser null
 	
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id")

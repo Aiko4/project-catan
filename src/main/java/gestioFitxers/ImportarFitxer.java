@@ -11,17 +11,15 @@ import classesCatan.Vertex;
 import classesCatan.Aresta;
 
 
-public class importarFitxer {
-	
-	public static HashSet importar(String fitxerCVS) {	
-		
-		HashMap<Integer, Vertex> vertexs = new HashMap<>();
-		HashMap<Integer, Hexagon> hexagons = new HashMap<>();
+public class ImportarFitxer {
+
+		public static HashSet importar(String fitxerCVS,HashMap<Integer,Vertex> vertexs, HashMap<Integer, Hexagon> hexagons){
+
 		HashSet<Aresta> arestes = new HashSet();
 		HashSet<HexagonVertex> hexagonVertexs = new HashSet();
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(fitxerCVS))) {
-			
+
 			String linia;
 			Integer arrayNombres[] = new Integer[3];
             
@@ -92,8 +90,9 @@ public class importarFitxer {
             		 Hexagon hexagon = new Hexagon(arrayNombres[0], arrayNombres[1], arrayNombres[2]);
             		 hexagons.put(arrayNombres[0], hexagon);      
             	}
+				HashSet<Hexagon> setHexagons = new HashSet<>(hexagons.values());
             	
-            	return hexagons;
+            	return setHexagons;
             	
             } else {
             	
@@ -108,13 +107,15 @@ public class importarFitxer {
 	           		 // com que de moment no volem dibuixar el tauler, nomes guardem el codi sense afegir les coordenades 
 	           		 Vertex vertex = new Vertex(arrayNombres[0]);
 	           		 vertexs.put(arrayNombres[0], vertex);  	  	   	           		 
-            	}       
-            	
-            	return vertexs;
+            	}
+				HashSet<Vertex> setVertexs = new HashSet<>(vertexs.values());
+
+				return setVertexs;
             }
             
         } catch (IOException e){
         	System.out.print("S'ha produit un error en intentar importar l'arxiu: " + e.getMessage());
-        }		
+        }
+		return null;
 	}
 }

@@ -1,9 +1,11 @@
 package classesCatan;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
+import gestioFitxers.ImportarFitxer;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -58,7 +60,14 @@ public class Main {
 	
 	
 	private static void crearTaulell(Partida partida) {
-		//Carregar CSVs
+		HashMap<Integer,Vertex> mapaVertex=new HashMap<>();
+		HashMap<Integer,Hexagon> mapaHexagons=new HashMap<>();
+		partida.setVertexs(ImportarFitxer.importar("vertex.csv",mapaVertex,mapaHexagons));
+		partida.setHexagons(ImportarFitxer.importar("hexagons.csv",mapaVertex,mapaHexagons));
+		HashSet <HexagonVertex> patata=ImportarFitxer.importar("hexagon_vertex.csv",mapaVertex,mapaHexagons);
+		partida.setArestes(ImportarFitxer.importar("aresta.csv",mapaVertex,mapaHexagons));
+
+		System.out.println(patata.stream().findFirst().toString());
 	}
 	
 	
