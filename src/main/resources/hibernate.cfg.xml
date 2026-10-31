@@ -4,33 +4,30 @@
     "https://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/catan?createDatabaseIfNotExist=true</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">super3</property>
+		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/catan?createDatabaseIfNotExist=true</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">super3</property>
 
-        <property name="hibernate.hbm2ddl.auto">create</property>
-
-        <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.highlight_sql">true</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
         
 		<!-- Mapping each entity defined in src/main/java   CREC QUE EL DAOHIBERNATE.XML NO CAL DE MOMENT EL TREURIA -->
-		
 
-		<mapping class="Aresta"/>
-		<mapping class="Assentament"/>
-		<mapping class="Carretera"/>
-		<mapping class="CartaDesenvolupament"/>
-		<mapping class="Construccio"/>
-		<mapping class="Hexagon"/>
-		<mapping class="Jugador"/>
-		<mapping class="HexagonVertex"/>
-		<mapping class="Partida"/>
-		<mapping class="RecursJugador"/>
-		<mapping class="Vertex"/>
-		<mapping class="Poblat"/>
-		<mapping class="Ciutat"/>
+
+		<mapping class="classesCatan.Aresta"/>
+		<mapping class="classesCatan.Assentament"/>
+		<mapping class="classesCatan.Carretera"/>
+		<mapping class="classesCatan.CartaDesenvolupament"/>
+		<mapping class="classesCatan.Construccio"/>
+		<mapping class="classesCatan.Hexagon"/>
+		<mapping class="classesCatan.Jugador"/>
+		<mapping class="classesCatan.HexagonVertex"/>
+		<mapping class="classesCatan.Partida"/>
+		<mapping class="classesCatan.RecursJugador"/>
+		<mapping class="classesCatan.Vertex"/>
+		<mapping class="classesCatan.Poblat"/>
+		<mapping class="classesCatan.Ciutat"/>
 
 
     </session-factory>

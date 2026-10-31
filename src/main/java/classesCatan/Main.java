@@ -34,6 +34,7 @@ public class Main {
 	
 	public static void main(String args[]) {
 		sessionFactory = getSessionFactory();
+		Partida p=crearPartida();
 		
 	}
 	
@@ -62,7 +63,7 @@ public class Main {
 	private static void crearTaulell(Partida partida) {
 		HashMap<Integer,Vertex> mapaVertex=new HashMap<>();
 		HashMap<Integer,Hexagon> mapaHexagons=new HashMap<>();
-		partida.setVertexs(ImportarFitxer.importar("vertex.csv",mapaVertex,mapaHexagons));
+		partida.setVertexs(ImportarFitxer.importar("vertexs.csv",mapaVertex,mapaHexagons));
 		partida.setHexagons(ImportarFitxer.importar("hexagons.csv",mapaVertex,mapaHexagons));
 		HashSet <HexagonVertex> patata=ImportarFitxer.importar("hexagon_vertex.csv",mapaVertex,mapaHexagons);
 		partida.setArestes(ImportarFitxer.importar("aresta.csv",mapaVertex,mapaHexagons));
@@ -80,7 +81,7 @@ public class Main {
 		while(true) {
 			try {
 				i=Integer.parseInt(scanner.nextLine());
-				scanner.next();
+				//scanner.nextLine();
 				return i;
 			}catch(NumberFormatException e){
 				System.out.print("Valor invàlid, torna a introduir un nombre: ");
