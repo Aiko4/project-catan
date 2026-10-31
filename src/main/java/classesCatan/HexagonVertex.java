@@ -82,12 +82,7 @@ public class HexagonVertex {
 
 	@Override
 	public String toString() {
-		return "HexagonVertex [id=" + id + ", posicio=" + posicio + ", getId()=" + getId() + ", getPosicio()="
-				+ getPosicio() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass() + ", toString()="
-				+ super.toString() + "]";
+		return "HexagonVertex[" + "id=" + id + ", posicio=" + posicio + ", hexagon=" + hexagon + ", vertex=" + vertex + ']';
 	}
-	
- 
-	
 }
 	

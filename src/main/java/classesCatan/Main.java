@@ -11,6 +11,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import enums.EstatPartida;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 
 
@@ -45,12 +47,12 @@ public class Main {
 		LocalDate dataInici= LocalDate.now();
 		int ronda=0;
 		int ultimaTirada=0;
-		System.out.print("Punts per guanyar: ");
-		int puntsPerGuanyar=getInt(1,100);
+	//	System.out.print("Punts per guanyar: ");
+		int puntsPerGuanyar=10; //getInt(1,100);
 		boolean dausTirats=false;
 		boolean lladrePendent=false;
-		
 		Partida partida = new Partida(estat,dataInici,ronda,ultimaTirada,puntsPerGuanyar,dausTirats,lladrePendent);
+
 		crearTaulell(partida);
 		
 		return partida;
@@ -63,10 +65,10 @@ public class Main {
 	private static void crearTaulell(Partida partida) {
 		HashMap<Integer,Vertex> mapaVertex=new HashMap<>();
 		HashMap<Integer,Hexagon> mapaHexagons=new HashMap<>();
-		partida.setVertexs(ImportarFitxer.importar("vertexs.csv",mapaVertex,mapaHexagons));
-		partida.setHexagons(ImportarFitxer.importar("hexagons.csv",mapaVertex,mapaHexagons));
-		HashSet <HexagonVertex> patata=ImportarFitxer.importar("hexagon_vertex.csv",mapaVertex,mapaHexagons);
-		partida.setArestes(ImportarFitxer.importar("aresta.csv",mapaVertex,mapaHexagons));
+		partida.setVertexs(ImportarFitxer.importar("/dades/vertexs.csv",mapaVertex,mapaHexagons));
+		partida.setHexagons(ImportarFitxer.importar("/dades/hexagons.csv",mapaVertex,mapaHexagons));
+		HashSet <HexagonVertex> patata=ImportarFitxer.importar("/dades/hexagon_vertex.csv",mapaVertex,mapaHexagons);
+		partida.setArestes(ImportarFitxer.importar("/dades/arestes.csv",mapaVertex,mapaHexagons));
 
 		System.out.println(patata.stream().findFirst().toString());
 	}
@@ -94,7 +96,7 @@ public class Main {
 		while(true) {
 			try {
 				i=Integer.parseInt(scanner.nextLine());
-				scanner.next();
+				//scanner.next();
 				if(i<=min || i>=max) {
 					System.out.print("Valor invàlid, torna a introduir un nombre: ");
 				}else {
@@ -111,7 +113,7 @@ public class Main {
 		while(true) {
 			try {
 				d=Double.parseDouble(scanner.nextLine());
-				scanner.next();
+				//scanner.next();
 				return d;
 			}catch(NumberFormatException e){
 				System.out.print("Valor invàlid, torna a introduir un nombre: ");
