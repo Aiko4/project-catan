@@ -23,11 +23,12 @@ public class ImportarFitxer {
 		}
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
 			String linia;
-			linia=br.readLine(); //Salta la capcelera del CSV
+			//Salta la capcelera del CSV per evitar errors
+			linia=br.readLine();
 			Integer[] arrayNombres = new Integer[3];
 			int nombreLlegit;
 
-			if (fitxerCVS.contains("aresta.csv")) {
+			if (fitxerCVS.contains("arestes.csv")) {
 				while ((linia = br.readLine()) != null) {
 					String[] dadesLinia = linia.split(",");
 					for (int i = 0; i < dadesLinia.length; i++) {

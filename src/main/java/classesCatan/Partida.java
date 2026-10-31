@@ -103,7 +103,8 @@ public class Partida {
 		this.ultimaTirada=ultimaTirada;
 		this.puntsPerGuanyar=puntsPerGuanyar;
 		this.dausTirats=dausTirats;
-		this.lladrePendent=lladrePendent;		
+		this.lladrePendent=lladrePendent;
+		this.jugadors=new HashSet<>();
 	}
 
 	public Integer getId() {
@@ -261,7 +262,7 @@ public class Partida {
 				+ ", ultimaTirada=" + ultimaTirada + ", puntsPerGuanyar=" + puntsPerGuanyar + ", dausTirats="
 				+ dausTirats + ", lladrePendent=" + lladrePendent + "]";
 	}
-	
-	
+
+
 
 }

@@ -127,10 +127,7 @@ public class Hexagon {
 
 	@Override
 	public String toString() {
-		return "Hexagon [id=" + id + ", codi=" + codi + ", terreny=" + terreny + ", numero=" + numero + ", q=" + q
-				+ ", r=" + r + ", getId()=" + getId() + ", getCodi()=" + getCodi() + ", getTerreny()=" + getTerreny()
-				+ ", getNumero()=" + getNumero() + ", getQ()=" + getQ() + ", getR()=" + getR() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+		return "Hexagon [id=" + id + ", codi=" + codi + ", terreny=" + terreny + ", numero=" + numero + ", q=" + q + ", r=" + r + "]";
 	}
 
 	@Override
