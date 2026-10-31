@@ -1,10 +1,8 @@
 package classesCatan;
 
-import java.awt.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 
 import enums.ColorJugador;
 import gestioFitxers.ImportarFitxer;
@@ -13,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import enums.EstatPartida;
+import org.hibernate.collection.spi.PersistentBag;
 
 
 public class Main {
@@ -35,16 +34,58 @@ public class Main {
 	
 	public static void main(String args[]) {
 		sessionFactory = getSessionFactory();
-		Partida p=crearPartida();
-		//Falta controlar quants jugadors es volen afegir i que no sobrepassin el límit de 5
-		afegirJugador(p);
+		ArrayList <String> nomsJugadors=nombrarJugadors();
+
+		int idPartida=iniciarPartida(nomsJugadors);
+
 		
 	}
-	
+	//Recull de 2 a 4 noms diferents en un ArrayList
+	private static ArrayList<String> nombrarJugadors() {
+		ArrayList <String> noms=new ArrayList<>();
+		while(noms.size()<2){
+			boolean nomValid=false;
+			System.out.print("Introdueix el nom del jugador: ");
+			while(!nomValid){
+				String nom=getString();
+				nomValid=true;
+				for (String n:noms){
+					if (nom.equals(n)){
+						nomValid=false;
+						System.out.print("Aquest nom ja esta registrat, torna a introduir un nom: ");
+					}
+				}
+				if (nomValid) noms.add(nom);
+			}
+		}
+		System.out.print("Vols afegir més jugadors? (S/N): ");
+		boolean addJugadorSN=getBoolean();
+		while (addJugadorSN && noms.size()<4){
+			boolean nomValid=false;
+			System.out.print("Introdueix el nom del jugador: ");
+			while(!nomValid){
+				String nom=getString();
+				nomValid=true;
+				for (String n:noms){
+					if (nom.equals(n)){
+						nomValid=false;
+						System.out.print("Aquest nom ja esta registrat, torna a introduir un nom: ");
+					}
+				}
+				if (nomValid) noms.add(nom);
+			}
+			System.out.print("Vols afegir més jugadors? (S/N): ");
+			addJugadorSN=getBoolean();
+
+		}
+
+		return noms;
+	}
+
 	//======================================
 	//          Creació de partida
 	//======================================
-	public static Partida crearPartida() {
+	public static int iniciarPartida(List<String> nomsJugadors) {
 		System.out.println("** CREANT PARTIDA... **");
 		EstatPartida estat=EstatPartida.PREPARACIO;
 		LocalDate dataInici= LocalDate.now();
@@ -54,47 +95,16 @@ public class Main {
 		int puntsPerGuanyar=getInt(1,100);
 		boolean dausTirats=false;
 		boolean lladrePendent=false;
+		//Crec que crear la partida s'ha de fer amb dao en comptes de amb constructor
 		Partida partida = new Partida(estat,dataInici,ronda,ultimaTirada,puntsPerGuanyar,dausTirats,lladrePendent);
 		crearTaulell(partida);
-		System.out.println("** PARTIDA CREADAD **");
-		return partida;
+		//Posar jugadors a partida
+		System.out.println("** PARTIDA CREADA **\n");
+
+		//INSERT de partida a la BBDD
+		return partida.getId();
 	}
 
-	public static void afegirJugador(Partida partida){
-		System.out.println("** CREANT JUGADOR... **");
-		System.out.print("Introdueix el nom del jugador: ");
-		String nom=getString();
-		ColorJugador colorJugador=triarcolor(partida);
-		Jugador jugador=new Jugador(nom,colorJugador,partida.getJugadors().size()+1);
-		partida.getJugadors().add(jugador);
-		System.out.println("** JUGADOR AFEGIT A LA PARTIDA **");
-	}
-	public static ColorJugador triarcolor(Partida partida){
-		HashSet<Jugador> jugadors=partida.getJugadors();
-		HashSet<ColorJugador> colorsDisponibles =new HashSet();
-		ColorJugador colorTriat=null;
-		for (ColorJugador color : ColorJugador.values()) {
-			colorsDisponibles.add(color);
-		}
-		if(colorsDisponibles.size()>1){
-			for(Jugador jugador:jugadors){
-				colorsDisponibles.remove(jugador.getColorJugador());
-			}
-			int cont=0;
-			System.out.println("Colors disponibles:");
-			for(ColorJugador color:colorsDisponibles){
-				cont++;
-				System.out.println("   "+cont+". "+color);
-			}
-			System.out.print("Selecciona un color: ");
-			int posicioTria=getInt(1,colorsDisponibles.size())-1;
-			colorTriat= (ColorJugador) colorsDisponibles.toArray()[posicioTria];
-
-		} else if (colorsDisponibles.size()==1) {
-			colorTriat= (ColorJugador) colorsDisponibles.toArray()[0];
-		}
-		return colorTriat;
-	}
 
 
 	private static void crearTaulell(Partida partida) {
@@ -128,7 +138,7 @@ public class Main {
 		while(true) {
 			try {
 				i=Integer.parseInt(scanner.nextLine());
-				if(i<=min || i>=max) {
+				if(i<min || i>max) {
 					System.out.print("Valor invàlid, torna a introduir un nombre: ");
 				}else {
 					return i;
@@ -156,7 +166,7 @@ public class Main {
 		while(true) {
 			try {
 				i=Double.parseDouble(scanner.nextLine());
-				if(i<=min || i>=max) {
+				if(i<min || i>max) {
 					System.out.print("Valor invàlid, torna a introduir un nombre: ");
 				}else {
 					return i;
@@ -167,6 +177,20 @@ public class Main {
 		}
 	}
 
+	public static boolean getBoolean(){
+		String inpt;
+		while(true){
+			inpt=scanner.nextLine().toUpperCase();
+			if(inpt.equals("SI") || inpt.equals("SÍ") || inpt.equals("S") || inpt.equals("YES") ||inpt.equals("Y") || inpt.equals("TRUE")){
+				return true;
+			} else if (inpt.equals("NO") || inpt.equals("N") || inpt.equals("FALSE")){
+				return false;
+			}else{
+				System.out.print("Valor invàlid, torna a introduir una opció (S/N): ");
+			}
+		}
+
+	}
 
 	public static String getString() {
 		String s="";
