@@ -1,8 +1,10 @@
 package classesCatan;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
 
 import enums.ColorJugador;
 import gestioFitxers.ImportarFitxer;
@@ -12,6 +14,7 @@ import org.hibernate.cfg.Configuration;
 
 import enums.EstatPartida;
 import org.hibernate.collection.spi.PersistentBag;
+import patroDAO.PartidaDao;
 
 
 public class Main {
@@ -36,7 +39,7 @@ public class Main {
 		sessionFactory = getSessionFactory();
 		ArrayList <String> nomsJugadors=nombrarJugadors();
 
-		int idPartida=iniciarPartida(nomsJugadors);
+		Integer idPartida=iniciarPartida(nomsJugadors);
 
 		
 	}
@@ -74,8 +77,11 @@ public class Main {
 				}
 				if (nomValid) noms.add(nom);
 			}
-			System.out.print("Vols afegir més jugadors? (S/N): ");
-			addJugadorSN=getBoolean();
+			if(noms.size()<4){
+				System.out.print("Vols afegir més jugadors? (S/N): ");
+				addJugadorSN=getBoolean();
+			}
+
 
 		}
 
@@ -95,13 +101,26 @@ public class Main {
 		int puntsPerGuanyar=getInt(1,100);
 		boolean dausTirats=false;
 		boolean lladrePendent=false;
-		//Crec que crear la partida s'ha de fer amb dao en comptes de amb constructor
 		Partida partida = new Partida(estat,dataInici,ronda,ultimaTirada,puntsPerGuanyar,dausTirats,lladrePendent);
+		//assignar taulell a la partida
 		crearTaulell(partida);
-		//Posar jugadors a partida
+
+		//Barrejar noms, assignar colors i ordre
+		Collections.shuffle(nomsJugadors);
+		int ordreJugador=0;
+		for (String nom:nomsJugadors){
+			ColorJugador color = ColorJugador.values()[ordreJugador];
+			ordreJugador++;
+			Jugador jugador=new Jugador(nom,color,ordreJugador);
+			partida.getJugadors().add(jugador);
+		}
 		System.out.println("** PARTIDA CREADA **\n");
 
 		//INSERT de partida a la BBDD
+		PartidaDao partidaDao=new PartidaDao();
+		//Falla per culpa del hexagon, terrany i numero =null i son obligatoris
+		partidaDao.saveOrUpdate(partida);
+
 		return partida.getId();
 	}
 
