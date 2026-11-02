@@ -36,9 +36,9 @@ public class Hexagon {
 	@Enumerated(EnumType.STRING)
 	@Column(name="terreny", nullable=false, length=15)
 	private TipusTerreny terreny;
-	
 
-	@Column(name="num_hexagon", nullable=false)
+
+	@Column(name="num_hexagon", nullable=true)
 	private Integer numero;
 	
 	@NotNull
@@ -124,7 +124,6 @@ public class Hexagon {
 	public void setR(Integer r) {
 		this.r = r;
 	}
-	
 
 	public Partida getPartida_id() {
 		return partida_id;

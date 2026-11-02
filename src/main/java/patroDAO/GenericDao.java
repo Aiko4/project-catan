@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import classesCatan.Partida;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -26,18 +27,22 @@ public class GenericDao<T, ID extends Serializable> implements IGenericDao<T, ID
     /*
      * Ara si, desenvolupem el codi de manera genèrica ja que totes les classes necessiten aquests mètodes
      */
+
     @Override
-    public void saveOrUpdate(T entity) {
+    public T saveOrUpdate(T entity) {
         Session session = sessionFactory.getCurrentSession();
         try {
             // Tota operació de modificació necessita una transacció
             session.beginTransaction();
-            session.merge(entity);
+            T entityActualitzada = (T) session.merge(entity);
             session.getTransaction().commit();
+            return entityActualitzada;
         } catch (RuntimeException e) {
             handleException(session, e);
+            return null;
         }
     }
+
 
     @Override
     public T get(ID id) {

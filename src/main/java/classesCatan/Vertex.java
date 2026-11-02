@@ -43,20 +43,52 @@ public class Vertex {
 		this.codi = codi;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getCodi() {
-		return codi;
+	public void setCodi(Integer codi) {
+		this.codi = codi;
 	}
 
-	public void setCodi(int codi) {
-		this.codi = codi;
+	public Partida getPartida_id() {
+		return partida_id;
+	}
+
+	public void setPartida_id(Partida partida_id) {
+		this.partida_id = partida_id;
+	}
+
+	public HashSet<Aresta> getArestesA() {
+		return arestesA;
+	}
+
+	public void setArestesA(HashSet<Aresta> arestesA) {
+		this.arestesA = arestesA;
+	}
+
+	public HashSet<Aresta> getArestesB() {
+		return arestesB;
+	}
+
+	public void setArestesB(HashSet<Aresta> arestesB) {
+		this.arestesB = arestesB;
+	}
+
+	public HashSet<HexagonVertex> getHexagonVertex() {
+		return hexagonVertex;
+	}
+
+	public void setHexagonVertex(HashSet<HexagonVertex> hexagonVertex) {
+		this.hexagonVertex = hexagonVertex;
+	}
+
+	public Assentament getAssentament() {
+		return assentament;
+	}
+
+	public void setAssentament(Assentament assentament) {
+		this.assentament = assentament;
 	}
 
 	@Override

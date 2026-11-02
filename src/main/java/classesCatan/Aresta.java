@@ -17,43 +17,43 @@ import jakarta.validation.constraints.NotNull;
 @Table(name="aresta")
 public class Aresta {
 
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_aresta", nullable=false, unique=true)
 	private Integer id;
-	
+
 	@NotNull
 	@Column(name="codi_aresta", nullable=false)
 	private Integer codi;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "partida_id")
 	private Partida partida_id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_vertexA")
 	private Vertex vertexA;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_vertexB")
 	private Vertex vertexB;
-	
+
 	@OneToOne(mappedBy = "aresta")
 	private Carretera carretera;
-	
+
 	// constructor hibernate
 	public Aresta() {
-		
+
 	}
-	
+
 	// constructor per a importar arestes
 	public Aresta(Integer codi, Vertex vertexA,  Vertex vertexB) {
 		this.codi = codi;
 		this.vertexA = vertexA;
 		this.vertexB = vertexB;
 	}
-	
+
 	public Aresta(Integer codi) {
 		this.codi = codi;
 	}
@@ -72,6 +72,38 @@ public class Aresta {
 
 	public void setCodi(Integer codi) {
 		this.codi = codi;
+	}
+
+	public Partida getPartida_id() {
+		return partida_id;
+	}
+
+	public void setPartida_id(Partida partida_id) {
+		this.partida_id = partida_id;
+	}
+
+	public Vertex getVertexA() {
+		return vertexA;
+	}
+
+	public void setVertexA(Vertex vertexA) {
+		this.vertexA = vertexA;
+	}
+
+	public Vertex getVertexB() {
+		return vertexB;
+	}
+
+	public void setVertexB(Vertex vertexB) {
+		this.vertexB = vertexB;
+	}
+
+	public Carretera getCarretera() {
+		return carretera;
+	}
+
+	public void setCarretera(Carretera carretera) {
+		this.carretera = carretera;
 	}
 
 	@Override
@@ -95,8 +127,8 @@ public class Aresta {
 	public String toString() {
 		return "Aresta [id=" + id + ", codi=" + codi + "]";
 	}
-	
-	
-	
-	
+
+
+
+
 }

@@ -2,6 +2,8 @@ package classesCatan;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,75 +29,75 @@ import jakarta.validation.constraints.PastOrPresent;
 @Entity
 @Table(name="partida")
 public class Partida {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_partida",nullable=false,unique=true)
 	private Integer id;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="estat_partida",nullable=false, length=20)
 	private EstatPartida estatPartida;
-	
+
 	@NotNull(message = "La data d'inici ha ser obligatoriament")
 	@CreationTimestamp
 	@PastOrPresent(message = "La data d'inici no pot ser futura.")
-    @Column(name = "data_inici", updatable = false, nullable=false)
+	@Column(name = "data_inici", updatable = false, nullable=false)
 	private LocalDate dataInici;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "jugadorGuanyador_id", unique = true, nullable=true)
 	private Jugador guanyador;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "jugadorActiu_id", unique = true, nullable=true)
 	private Jugador actiu;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "hexagonLladre_id", unique = true, nullable=true)
 	private Hexagon lladre;
-	
+
 	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Jugador> jugadors;
-	
+	private Set<Jugador> jugadors = new HashSet<>();
+
 	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Hexagon> hexagons;
-	
+	private Set<Hexagon> hexagons = new HashSet<>();
+
 	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Vertex> vertexs;
-	
+	private Set<Vertex> vertexs = new HashSet<>();
+
 	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Aresta> arestes;
+	private Set<Aresta> arestes = new HashSet<>();
 
 	//Verificar si es poden repetir cartes per saber si és ArrayList o HashSet
 	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private ArrayList<CartaDesenvolupament> pilaCartes;
-	
+	private List<CartaDesenvolupament> pilaCartes = new ArrayList<>();
+
 	@NotNull
 	@Column(name="ronda",nullable=false)
 	private Integer ronda;
-	
+
 	@NotNull
 	@Column(name="ultima_tirada",nullable=false)
 	private Integer ultimaTirada;
-	
+
 	@NotNull
 	@Column(name="punts_per_guanyar",nullable=false)
 	private Integer puntsPerGuanyar;
-	
+
 	@NotNull
 	@Column(name="daus_tirats",nullable=false)
 	private boolean dausTirats;
-	
+
 	@NotNull
 	@Column(name="lladre_pendent",nullable=false)
 	private boolean lladrePendent;
-	
+
 	public Partida() {
 
 	}
-	
+
 	public Partida(EstatPartida estatPartida,LocalDate dataInici, Integer ronda, Integer ultimaTirada, Integer puntsPerGuanyar, boolean dausTirats, boolean lladrePendent) {
 		this.estatPartida=estatPartida;
 		this.dataInici=dataInici;
@@ -195,43 +197,43 @@ public class Partida {
 		this.lladre = lladre;
 	}
 
-	public HashSet<Jugador> getJugadors() {
+	public Set<Jugador> getJugadors() {
 		return jugadors;
 	}
 
-	public void setJugadors(HashSet<Jugador> jugadors) {
+	public void setJugadors(Set<Jugador> jugadors) {
 		this.jugadors = jugadors;
 	}
 
-	public HashSet<Hexagon> getHexagons() {
+	public Set<Hexagon> getHexagons() {
 		return hexagons;
 	}
 
-	public void setHexagons(HashSet<Hexagon> hexagons) {
+	public void setHexagons(Set<Hexagon> hexagons) {
 		this.hexagons = hexagons;
 	}
 
-	public HashSet<Vertex> getVertexs() {
+	public Set<Vertex> getVertexs() {
 		return vertexs;
 	}
 
-	public void setVertexs(HashSet<Vertex> vertexs) {
+	public void setVertexs(Set<Vertex> vertexs) {
 		this.vertexs = vertexs;
 	}
 
-	public HashSet<Aresta> getArestes() {
+	public Set<Aresta> getArestes() {
 		return arestes;
 	}
 
-	public void setArestes(HashSet<Aresta> arestes) {
+	public void setArestes(Set<Aresta> arestes) {
 		this.arestes = arestes;
 	}
 
-	public ArrayList<CartaDesenvolupament> getPilaCartes() {
+	public List<CartaDesenvolupament> getPilaCartes() {
 		return pilaCartes;
 	}
 
-	public void setPilaCartes(ArrayList<CartaDesenvolupament> pilaCartes) {
+	public void setPilaCartes(List<CartaDesenvolupament> pilaCartes) {
 		this.pilaCartes = pilaCartes;
 	}
 

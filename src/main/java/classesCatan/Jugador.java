@@ -1,6 +1,8 @@
 package classesCatan;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import enums.TipusRecurs;
 
@@ -18,49 +20,49 @@ public class Jugador {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_jugador",nullable=false,unique=true)
 	private Integer id;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida_id;
-	
+
 	//private boolean isGuanyador;
-	
+
 	//private boolean isActiu;
-	
+
 	@NotNull
 	@Column(name="nom_jugador",nullable=false, length = 50)
 	private String nom;
-	
+
 	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private ArrayList<Construccio> construccionsJugador;
+	private List<Construccio> construccionsJugador = new ArrayList<>();
 
 	@OneToMany(mappedBy = "jugador",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
 	@MapKey(name = "tipus")
 	@MapKeyEnumerated(EnumType.STRING)
-	private HashMap<TipusRecurs, RecursJugador> inventari;
-	
+	private Map<TipusRecurs, RecursJugador> inventari = new HashMap<>();
+
 	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL)
-    private ArrayList<CartaDesenvolupament> ma = new ArrayList<>();
-	
+	private List<CartaDesenvolupament> ma = new ArrayList<>();
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="color_jugador",nullable=false, length = 15)
 	private ColorJugador colorJugador;
-	
+
 	@NotNull
 	@Column(name="ordre_torn",nullable=false)
 	private Integer ordreTorn;
-	
+
 	@NotNull
 	@Column(name="cavallers_jugats",nullable=false)
 	@ColumnDefault("0")
 	private Integer cavallersJugats = 0;
-	
-	
+
+
 	// constructor buit per a Hibernate
-	public Jugador() {	
+	public Jugador() {
 	}
-	
+
 	public Jugador(String nom, ColorJugador colorJugador, Integer ordreTorn) {
 		this.nom = nom;
 		this.colorJugador = colorJugador;
@@ -107,6 +109,38 @@ public class Jugador {
 		this.cavallersJugats = cavallersJugats;
 	}
 
+	public Partida getPartida_id() {
+		return partida_id;
+	}
+
+	public void setPartida_id(Partida partida_id) {
+		this.partida_id = partida_id;
+	}
+
+	public List<Construccio> getConstruccionsJugador() {
+		return construccionsJugador;
+	}
+
+	public void setConstruccionsJugador(List<Construccio> construccionsJugador) {
+		this.construccionsJugador = construccionsJugador;
+	}
+
+	public Map<TipusRecurs, RecursJugador> getInventari() {
+		return inventari;
+	}
+
+	public void setInventari(Map<TipusRecurs, RecursJugador> inventari) {
+		this.inventari = inventari;
+	}
+
+	public List<CartaDesenvolupament> getMa() {
+		return ma;
+	}
+
+	public void setMa(List<CartaDesenvolupament> ma) {
+		this.ma = ma;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(cavallersJugats, colorJugador, id, nom, ordreTorn);
@@ -131,8 +165,6 @@ public class Jugador {
 		return "Jugador [id=" + id + ", nom=" + nom + ", colorJugador=" + colorJugador + ", ordreTorn=" + ordreTorn
 				+ ", cavallersJugats=" + cavallersJugats + "]";
 	}
-	
-	
-	
+
+
 }
- 

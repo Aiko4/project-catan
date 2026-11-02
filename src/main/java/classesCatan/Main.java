@@ -42,7 +42,7 @@ public class Main {
 		ArrayList <String> nomsJugadors=nombrarJugadors();
 
 		Integer idPartida=iniciarPartida(nomsJugadors);
-
+		System.out.println("Id de la partida: "+idPartida);
 		
 	}
 	//Recull de 2 a 4 noms diferents en un ArrayList
@@ -114,57 +114,20 @@ public class Main {
 			ColorJugador color = ColorJugador.values()[ordreJugador];
 			ordreJugador++;
 			Jugador jugador=new Jugador(nom,color,ordreJugador);
+			jugador.setPartida_id(partida);
 			partida.getJugadors().add(jugador);
 		}
-		
-		configurarHexagons(partida);
-		
 		
 		
 		System.out.println("** PARTIDA CREADA **\n");
 
 		//INSERT de partida a la BBDD
 		PartidaDao partidaDao=new PartidaDao();
-		//Falla per culpa del hexagon, terrany i numero =null i son obligatoris
-		partidaDao.saveOrUpdate(partida);
-
+		partida = partidaDao.saveOrUpdate(partida);
 		return partida.getId();
 	}
 
-	
-	private static void configurarHexagons(Partida partida) {
-		
-		ArrayList<Integer> numerosHexagons = new ArrayList<>(List.of(2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12));
-		ArrayList<TipusTerreny> terrenyHexagon = new ArrayList<>(List.of(TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC, 
-																		TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES,
-																		TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS,
-																		TipusTerreny.TURONS, TipusTerreny.TURONS, TipusTerreny.TURONS,
-																		TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES, 
-																		TipusTerreny.DESERT));
-		
-		Collections.shuffle(numerosHexagons);
-		Collections.shuffle(terrenyHexagon);
-		
 
-		int hex = 0;
-
-
-		for (Hexagon h:partida.getHexagons()) {
-			h.setPartida_id(partida);
-		    TipusTerreny terreny = terrenyHexagon.get(hex);
-
-		    h.setTerreny(terreny);
-
-		    if (terreny == TipusTerreny.DESERT) {
-		        h.setNumero(null);
-		    } else {
-		        h.setNumero(numerosHexagons.get(hex));
-		        hex++;
-		    }
-		}
-		
-		
-	}
 
 
 	private static void crearTaulell(Partida partida) {
@@ -172,8 +135,37 @@ public class Main {
 		HashMap<Integer,Hexagon> mapaHexagons=new HashMap<>();
 		partida.setVertexs(ImportarFitxer.importar("/dades/vertexs.csv",mapaVertex,mapaHexagons));
 		partida.setHexagons(ImportarFitxer.importar("/dades/hexagons.csv",mapaVertex,mapaHexagons));
-		HashSet <HexagonVertex> patata=ImportarFitxer.importar("/dades/hexagon_vertex.csv",mapaVertex,mapaHexagons);
+		HashSet <HexagonVertex> hexagonsVertex=ImportarFitxer.importar("/dades/hexagon_vertex.csv",mapaVertex,mapaHexagons);
 		partida.setArestes(ImportarFitxer.importar("/dades/arestes.csv",mapaVertex,mapaHexagons));
+
+		ArrayList<Integer> numerosHexagons = new ArrayList<>(List.of(2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12));
+		ArrayList<TipusTerreny> terrenyHexagon = new ArrayList<>(List.of(TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC,
+				TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES,
+				TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS,
+				TipusTerreny.TURONS, TipusTerreny.TURONS, TipusTerreny.TURONS,
+				TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES,
+				TipusTerreny.DESERT));
+
+		Collections.shuffle(numerosHexagons);
+		Collections.shuffle(terrenyHexagon);
+		int hex = 0;
+		for (Hexagon h:partida.getHexagons()) {
+			h.setPartida_id(partida);
+			TipusTerreny terreny = terrenyHexagon.get(hex);
+			h.setTerreny(terreny);
+			if (terreny == TipusTerreny.DESERT) {
+				h.setNumero(null);
+			} else {
+				h.setNumero(numerosHexagons.get(hex));
+				hex++;
+			}
+		}
+		for (Vertex v:partida.getVertexs()){
+			v.setPartida_id(partida);
+		}
+		for (Aresta a:partida.getArestes()){
+			a.setPartida_id(partida);
+		}
 	}
 	
 	

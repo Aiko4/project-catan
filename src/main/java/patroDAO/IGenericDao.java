@@ -1,5 +1,7 @@
 package patroDAO;
 
+import classesCatan.Partida;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public interface IGenericDao<T, ID extends Serializable> {
     /*
      * INSERT i UPDATE
      */
-    void saveOrUpdate(T entity);
+    T saveOrUpdate(T entity);
 
     /*
      * SELECT per ID
