@@ -37,7 +37,7 @@ public class Hexagon {
 	@Column(name="terreny", nullable=false, length=15)
 	private TipusTerreny terreny;
 	
-	@NotNull
+
 	@Column(name="num_hexagon", nullable=false)
 	private Integer numero;
 	
@@ -123,6 +123,23 @@ public class Hexagon {
 
 	public void setR(Integer r) {
 		this.r = r;
+	}
+	
+
+	public Partida getPartida_id() {
+		return partida_id;
+	}
+
+	public void setPartida_id(Partida partida_id) {
+		this.partida_id = partida_id;
+	}
+
+	public List<HexagonVertex> getVertexsHexagon() {
+		return vertexsHexagon;
+	}
+
+	public void setVertexsHexagon(List<HexagonVertex> vertexsHexagon) {
+		this.vertexsHexagon = vertexsHexagon;
 	}
 
 	@Override

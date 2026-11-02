@@ -13,6 +13,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import enums.EstatPartida;
+import enums.TipusTerreny;
+
 import org.hibernate.collection.spi.PersistentBag;
 import patroDAO.PartidaDao;
 
@@ -114,6 +116,11 @@ public class Main {
 			Jugador jugador=new Jugador(nom,color,ordreJugador);
 			partida.getJugadors().add(jugador);
 		}
+		
+		configurarHexagons(partida);
+		
+		
+		
 		System.out.println("** PARTIDA CREADA **\n");
 
 		//INSERT de partida a la BBDD
@@ -124,6 +131,40 @@ public class Main {
 		return partida.getId();
 	}
 
+	
+	private static void configurarHexagons(Partida partida) {
+		
+		ArrayList<Integer> numerosHexagons = new ArrayList<>(List.of(2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12));
+		ArrayList<TipusTerreny> terrenyHexagon = new ArrayList<>(List.of(TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC, 
+																		TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES,
+																		TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS,
+																		TipusTerreny.TURONS, TipusTerreny.TURONS, TipusTerreny.TURONS,
+																		TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES, 
+																		TipusTerreny.DESERT));
+		
+		Collections.shuffle(numerosHexagons);
+		Collections.shuffle(terrenyHexagon);
+		
+
+		int hex = 0;
+
+
+		for (Hexagon h:partida.getHexagons()) {
+			h.setPartida_id(partida);
+		    TipusTerreny terreny = terrenyHexagon.get(hex);
+
+		    h.setTerreny(terreny);
+
+		    if (terreny == TipusTerreny.DESERT) {
+		        h.setNumero(null);
+		    } else {
+		        h.setNumero(numerosHexagons.get(hex));
+		        hex++;
+		    }
+		}
+		
+		
+	}
 
 
 	private static void crearTaulell(Partida partida) {
