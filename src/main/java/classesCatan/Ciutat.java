@@ -6,4 +6,12 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("CIUTAT")
 public class Ciutat extends Assentament {
 
+	public Ciutat () {
+		
+	}
+	
+	public Ciutat(Integer id,Vertex vertex) {
+		super(id, vertex);
+	}
+	
 }
