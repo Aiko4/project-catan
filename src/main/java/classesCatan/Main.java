@@ -143,22 +143,24 @@ public class Main {
 				TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES,
 				TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS,
 				TipusTerreny.TURONS, TipusTerreny.TURONS, TipusTerreny.TURONS,
-				TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES,
+				TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES,TipusTerreny.MUNTANYES,
 				TipusTerreny.DESERT));
 
 		Collections.shuffle(numerosHexagons);
 		Collections.shuffle(terrenyHexagon);
 		int hex = 0;
-		for (Hexagon h:partida.getHexagons()) {
-			h.setPartida_id(partida);
-			TipusTerreny terreny = terrenyHexagon.get(hex);
-			h.setTerreny(terreny);
-			if (terreny == TipusTerreny.DESERT) {
-				h.setNumero(null);
-			} else {
-				h.setNumero(numerosHexagons.get(hex));
-				hex++;
-			}
+		int num = 0;
+		for (Hexagon h : partida.getHexagons()) {
+		    h.setPartida_id(partida);
+		    TipusTerreny terreny = terrenyHexagon.get(hex);
+		    h.setTerreny(terreny);
+		    if (terreny == TipusTerreny.DESERT) {
+		        h.setNumero(null);
+		    } else {
+		        h.setNumero(numerosHexagons.get(num));
+		        num++;
+		    }
+		    hex++;
 		}
 		for (Vertex v:partida.getVertexs()){
 			v.setPartida_id(partida);
