@@ -29,10 +29,10 @@ public class Vertex {
 	@OneToMany(mappedBy="vertexB", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private HashSet<Aresta> arestesB;
 
-	@OneToMany(mappedBy = "vertex")
+	@OneToMany(mappedBy = "vertex", cascade = CascadeType.ALL)
 	private Set<HexagonVertex> hexagonVertex = new HashSet<>();
 	
-	@OneToOne(mappedBy = "vertex")
+	@OneToOne(mappedBy = "vertex", cascade = CascadeType.ALL)
 	private Assentament assentament;
 	
 	// constructor hibernate

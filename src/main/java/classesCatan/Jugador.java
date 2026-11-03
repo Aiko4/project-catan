@@ -25,10 +25,6 @@ public class Jugador {
 	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida_id;
 
-	//private boolean isGuanyador;
-
-	//private boolean isActiu;
-
 	@NotNull
 	@Column(name="nom_jugador",nullable=false, length = 50)
 	private String nom;
@@ -141,23 +137,16 @@ public class Jugador {
 		this.ma = ma;
 	}
 
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(cavallersJugats, colorJugador, id, nom, ordreTorn);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Jugador other = (Jugador) obj;
-		return Objects.equals(cavallersJugats, other.cavallersJugats) && colorJugador == other.colorJugador
-				&& Objects.equals(id, other.id) && Objects.equals(nom, other.nom)
-				&& Objects.equals(ordreTorn, other.ordreTorn);
+	public boolean equals(Object o) {
+		if (!(o instanceof Jugador jugador)) return false;
+        return Objects.equals(id, jugador.id) && Objects.equals(partida_id, jugador.partida_id) && Objects.equals(nom, jugador.nom) && Objects.equals(construccionsJugador, jugador.construccionsJugador) && Objects.equals(inventari, jugador.inventari) && Objects.equals(ma, jugador.ma) && colorJugador == jugador.colorJugador && Objects.equals(ordreTorn, jugador.ordreTorn) && Objects.equals(cavallersJugats, jugador.cavallersJugats);
 	}
 
 	@Override
