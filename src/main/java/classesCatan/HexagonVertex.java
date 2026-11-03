@@ -19,7 +19,7 @@ public class HexagonVertex {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_vertex",nullable=false,unique=true)
+	@Column(name="id_hexagonVertex",nullable=false,unique=true)
 	private Integer id;
 
 	@NotNull
@@ -62,6 +62,23 @@ public class HexagonVertex {
 	public void setPosicio(Integer posicio) {
 		this.posicio = posicio;
 	}
+	
+
+	public Hexagon getHexagon() {
+		return hexagon;
+	}
+
+	public void setHexagon(Hexagon hexagon) {
+		this.hexagon = hexagon;
+	}
+
+	public Vertex getVertex() {
+		return vertex;
+	}
+
+	public void setVertex(Vertex vertex) {
+		this.vertex = vertex;
+	}
 
 	@Override
 	public int hashCode() {
@@ -77,7 +94,7 @@ public class HexagonVertex {
 		if (getClass() != obj.getClass())
 			return false;
 		HexagonVertex other = (HexagonVertex) obj;
-		return Objects.equals(id, other.id) && Objects.equals(posicio, other.posicio);
+		return Objects.equals(id, other.id) && Objects.equals(posicio, other.posicio)&& Objects.equals(vertex, other.vertex)&& Objects.equals(hexagon, other.hexagon);
 	}
 
 	@Override

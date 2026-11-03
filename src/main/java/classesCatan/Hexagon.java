@@ -1,6 +1,8 @@
 package classesCatan;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import enums.TipusTerreny;
 import jakarta.persistence.Column;
@@ -54,7 +56,7 @@ public class Hexagon {
 	private Partida partida_id;
 	
 	@OneToMany(mappedBy = "hexagon")
-	private List<HexagonVertex> vertexsHexagon;
+	private Set<HexagonVertex> vertexsHexagon = new HashSet<>();
 	
 	// constructor hibernate
 	public Hexagon() {	
@@ -133,11 +135,11 @@ public class Hexagon {
 		this.partida_id = partida_id;
 	}
 
-	public List<HexagonVertex> getVertexsHexagon() {
+	public Set<HexagonVertex> getVertexsHexagon() {
 		return vertexsHexagon;
 	}
 
-	public void setVertexsHexagon(List<HexagonVertex> vertexsHexagon) {
+	public void setVertexsHexagon(Set<HexagonVertex> vertexsHexagon) {
 		this.vertexsHexagon = vertexsHexagon;
 	}
 

@@ -143,7 +143,7 @@ public class Main {
 				TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES,
 				TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS,
 				TipusTerreny.TURONS, TipusTerreny.TURONS, TipusTerreny.TURONS,
-				TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES,TipusTerreny.MUNTANYES,
+				TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES,
 				TipusTerreny.DESERT));
 
 		Collections.shuffle(numerosHexagons);
@@ -155,19 +155,36 @@ public class Main {
 		    TipusTerreny terreny = terrenyHexagon.get(hex);
 		    h.setTerreny(terreny);
 		    if (terreny == TipusTerreny.DESERT) {
+		    	partida.setLladre(h);
 		        h.setNumero(null);
 		    } else {
 		        h.setNumero(numerosHexagons.get(num));
 		        num++;
 		    }
 		    hex++;
+		    
+		    for(HexagonVertex hv : hexagonsVertex) {
+		    	if (hv.getHexagon().getCodi() == h.getCodi()) {
+		    		h.getVertexsHexagon().add(hv);
+		    		hv.setHexagon(h);
+		    	}
+		    }
 		}
 		for (Vertex v:partida.getVertexs()){
 			v.setPartida_id(partida);
+			for(HexagonVertex hv : hexagonsVertex) {
+		    	if (hv.getVertex().getCodi() == v.getCodi()) {
+		    		v.getHexagonVertex().add(hv);
+		    		hv.setVertex(v);
+		    	}
+		    }
 		}
 		for (Aresta a:partida.getArestes()){
 			a.setPartida_id(partida);
 		}
+		
+		System.out.println("HexagonVertex: " + hexagonsVertex.size());
+		System.out.println("HexagonVertex: " + partida.getVertexs());
 	}
 	
 	

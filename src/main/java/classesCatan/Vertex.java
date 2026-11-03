@@ -2,6 +2,7 @@ package classesCatan;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -29,7 +30,7 @@ public class Vertex {
 	private HashSet<Aresta> arestesB;
 
 	@OneToMany(mappedBy = "vertex")
-	private HashSet<HexagonVertex> hexagonVertex;
+	private Set<HexagonVertex> hexagonVertex = new HashSet<>();
 	
 	@OneToOne(mappedBy = "vertex")
 	private Assentament assentament;
@@ -49,6 +50,10 @@ public class Vertex {
 
 	public void setCodi(Integer codi) {
 		this.codi = codi;
+	}
+	
+	public Integer getCodi() {
+		return codi;
 	}
 
 	public Partida getPartida_id() {
@@ -75,11 +80,11 @@ public class Vertex {
 		this.arestesB = arestesB;
 	}
 
-	public HashSet<HexagonVertex> getHexagonVertex() {
+	public Set<HexagonVertex> getHexagonVertex() {
 		return hexagonVertex;
 	}
 
-	public void setHexagonVertex(HashSet<HexagonVertex> hexagonVertex) {
+	public void setHexagonVertex(Set<HexagonVertex> hexagonVertex) {
 		this.hexagonVertex = hexagonVertex;
 	}
 
