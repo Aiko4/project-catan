@@ -72,6 +72,14 @@ public class RecursJugador {
 		this.quantitat = quantitat;
 	}
 
+	public Jugador getJugador() {
+		return jugador;
+	}
+
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, quantitat, tipus);

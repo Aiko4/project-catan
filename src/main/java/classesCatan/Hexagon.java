@@ -44,7 +44,7 @@ public class Hexagon {
 	@JoinColumn(name = "partida_id")
 	private Partida partida_id;
 
-	@OneToMany(mappedBy = "hexagon", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "hexagon", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<HexagonVertex> vertexsHexagon = new HashSet<>();
 	
 	// constructor hibernate

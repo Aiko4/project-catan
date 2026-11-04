@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.List;
 
 import enums.ColorJugador;
+import enums.TipusRecurs;
 import gestioFitxers.ImportarFitxer;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
@@ -108,15 +109,8 @@ public class Main {
 		crearTaulell(partida);
 
 		//Barrejar noms, assignar colors i ordre
-		Collections.shuffle(nomsJugadors);
-		int ordreJugador=0;
-		for (String nom:nomsJugadors){
-			ColorJugador color = ColorJugador.values()[ordreJugador];
-			ordreJugador++;
-			Jugador jugador=new Jugador(nom,color,ordreJugador);
-			jugador.setPartida_id(partida);
-			partida.getJugadors().add(jugador);
-		}
+		prepararJugadors(nomsJugadors,partida);
+
 		
 		
 		System.out.println("** PARTIDA CREADA **\n");
@@ -127,7 +121,25 @@ public class Main {
 		return partida.getId();
 	}
 
-
+	private static void prepararJugadors(List<String> nomsJugadors, Partida partida) {
+		Collections.shuffle(nomsJugadors);
+		int ordreJugador=0;
+		for (String nom:nomsJugadors){
+			ColorJugador color = ColorJugador.values()[ordreJugador];
+			ordreJugador++;
+			Jugador jugador=new Jugador(nom,color,ordreJugador);
+			jugador.setPartida_id(partida);
+			partida.getJugadors().add(jugador);
+		}
+		for (Jugador j:partida.getJugadors()){
+			Map<TipusRecurs, RecursJugador> inventari=j.getInventari();
+			for(TipusRecurs tr:TipusRecurs.values()){
+				RecursJugador rj=new RecursJugador(tr,0);
+				rj.setJugador(j);
+				inventari.put(tr,rj);
+			}
+		}
+	}
 
 
 	private static void crearTaulell(Partida partida) {
