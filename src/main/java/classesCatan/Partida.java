@@ -30,22 +30,36 @@ import jakarta.validation.constraints.PastOrPresent;
 @Table(name="partida")
 public class Partida {
 
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_partida",nullable=false,unique=true)
 	private Integer id;
 
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="estat_partida",nullable=false, length=20)
 	private EstatPartida estatPartida;
 
-	@NotNull(message = "La data d'inici ha ser obligatoriament")
 	@CreationTimestamp
 	@PastOrPresent(message = "La data d'inici no pot ser futura.")
 	@Column(name = "data_inici", updatable = false, nullable=false)
 	private LocalDate dataInici;
 
+	@Column(name="ronda",nullable=false)
+	private Integer ronda;
+
+	@Column(name="ultima_tirada",nullable=false)
+	private Integer ultimaTirada;
+
+	@Column(name="punts_per_guanyar",nullable=false)
+	private Integer puntsPerGuanyar;
+
+	@Column(name="daus_tirats",nullable=false)
+	private boolean dausTirats;
+
+	@Column(name="lladre_pendent",nullable=false)
+	private boolean lladrePendent;
+
+	//Relacions
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "jugadorGuanyador_id", unique = true, nullable=true)
 	private Jugador guanyador;
@@ -70,30 +84,10 @@ public class Partida {
 	@OneToMany(mappedBy = "partida_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Aresta> arestes = new HashSet<>();
 
-	//Verificar si es poden repetir cartes per saber si és ArrayList o HashSet
 	@OneToMany(mappedBy = "partida", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<CartaDesenvolupament> pilaCartes = new ArrayList<>();
 
-	@NotNull
-	@Column(name="ronda",nullable=false)
-	private Integer ronda;
-
-	@NotNull
-	@Column(name="ultima_tirada",nullable=false)
-	private Integer ultimaTirada;
-
-	@NotNull
-	@Column(name="punts_per_guanyar",nullable=false)
-	private Integer puntsPerGuanyar;
-
-	@NotNull
-	@Column(name="daus_tirats",nullable=false)
-	private boolean dausTirats;
-
-	@NotNull
-	@Column(name="lladre_pendent",nullable=false)
-	private boolean lladrePendent;
-
+	//Constructors
 	public Partida() {
 
 	}
@@ -109,6 +103,7 @@ public class Partida {
 		this.jugadors=new HashSet<>();
 	}
 
+	//Get Set
 	public Integer getId() {
 		return id;
 	}
@@ -238,24 +233,15 @@ public class Partida {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(dataInici, Boolean.valueOf(dausTirats), estatPartida, id, Boolean.valueOf(lladrePendent),
-				puntsPerGuanyar, ronda, ultimaTirada);
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Partida partida = (Partida) o;
+		return Objects.equals(id, partida.id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Partida other = (Partida) obj;
-		return Objects.equals(dataInici, other.dataInici) && dausTirats == other.dausTirats
-				&& estatPartida == other.estatPartida && Objects.equals(id, other.id)
-				&& lladrePendent == other.lladrePendent && Objects.equals(puntsPerGuanyar, other.puntsPerGuanyar)
-				&& Objects.equals(ronda, other.ronda) && Objects.equals(ultimaTirada, other.ultimaTirada);
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 
 	@Override

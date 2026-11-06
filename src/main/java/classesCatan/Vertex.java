@@ -10,15 +10,16 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "vertex")
 public class Vertex {
-		
+
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique=true)
-	private Integer id; // no hauria de ser Integer? o es int perque pot ser null? -> si, ha de ser Integer sinò no pot ser null
+	private Integer id;
 	
 	@Column(name = "codi", nullable = false, unique = true)
-	private Integer codi; // no hauria de ser Integer? o es int perque pot ser null? -> si, ha de ser Integer sinò no pot ser null
-	
+	private Integer codi;
+
+	//Relacions
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id")
 	private Partida partida_id;
@@ -42,6 +43,11 @@ public class Vertex {
 	// constructor import i DAO
 	public Vertex (int codi) { // l'id es autogenerat, no s'ha de ficar al constructor
 		this.codi = codi;
+	}
+
+	//Get Set
+	public Integer getId() {
+		return id;
 	}
 
 	public void setId(Integer id) {
@@ -95,6 +101,8 @@ public class Vertex {
 	public void setAssentament(Assentament assentament) {
 		this.assentament = assentament;
 	}
+
+
 
 	@Override
 	public int hashCode() {

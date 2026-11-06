@@ -19,25 +19,25 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "assentament")
 abstract class Assentament extends Construccio {
-	
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_vertex",nullable=false,unique=true)
 	private Integer id;
-	
+
+	//Relacions
 	@OneToOne
 	@JoinColumn(name="vertex_id",unique = true, nullable = false)
 	private Vertex vertex;
 
-	
+	//Constructors
 	public Assentament() {
 	}
 
-	public Assentament(Integer id,Vertex vertex) {
-		this.id=id;
+	public Assentament(Vertex vertex) {
 		this.vertex=vertex;
 	}
 
+	//Get Set
 	public Integer getId() {
 		return id;
 	}
@@ -54,21 +54,17 @@ abstract class Assentament extends Construccio {
 		this.vertex = vertex;
 	}
 
+
 	@Override
-	public int hashCode() {
-		return Objects.hash(id, vertex);
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Assentament that = (Assentament) o;
+		return Objects.equals(id, that.id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Assentament other = (Assentament) obj;
-		return Objects.equals(id, other.id) && Objects.equals(vertex, other.vertex);
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 
 	@Override

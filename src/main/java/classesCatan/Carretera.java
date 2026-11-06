@@ -7,11 +7,13 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "carretera")
 public class Carretera extends Construccio {
-	
+
+	//Relacions
 	@OneToOne
     @JoinColumn(name = "id_aresta", unique = true, nullable = false)
 	private Aresta aresta;
-	
+
+	//Constructors
 	public Carretera() {		
 	}
 	
@@ -19,6 +21,7 @@ public class Carretera extends Construccio {
 		this.aresta = aresta;
 	}
 
+	//Get Set
 	public Aresta getAresta() {
 		return aresta;
 	}

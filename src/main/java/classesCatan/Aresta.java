@@ -17,16 +17,15 @@ import jakarta.validation.constraints.NotNull;
 @Table(name="aresta")
 public class Aresta {
 
-
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_aresta", nullable=false, unique=true)
 	private Integer id;
 
-	@NotNull
 	@Column(name="codi_aresta", nullable=false)
 	private Integer codi;
 
+	//Relacions
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "partida_id")
 	private Partida partida_id;
@@ -58,6 +57,7 @@ public class Aresta {
 		this.codi = codi;
 	}
 
+	//Get Set
 	public Integer getId() {
 		return id;
 	}
@@ -107,20 +107,15 @@ public class Aresta {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(codi, id);
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Aresta aresta = (Aresta) o;
+		return Objects.equals(id, aresta.id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Aresta other = (Aresta) obj;
-		return Objects.equals(codi, other.codi) && Objects.equals(id, other.id);
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 
 	@Override

@@ -16,18 +16,18 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name="hexagon_vertex")
 public class HexagonVertex {
-	
+
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_hexagonVertex",nullable=false,unique=true)
 	private Integer id;
 
-	@NotNull
 	@Column(name="posicio",nullable=false)
 	@Min(0)
 	@Max(5)
 	private Integer posicio;
-	
+
+	//Relacions
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hexagon_id")
     private Hexagon hexagon;
@@ -46,7 +46,8 @@ public class HexagonVertex {
     	this.hexagon = hexagon;
     	this.vertex = vertex;
     }
-    
+
+	//Get Set
 	public Integer getId() {
 		return id;
 	}
@@ -62,7 +63,6 @@ public class HexagonVertex {
 	public void setPosicio(Integer posicio) {
 		this.posicio = posicio;
 	}
-	
 
 	public Hexagon getHexagon() {
 		return hexagon;
@@ -81,20 +81,15 @@ public class HexagonVertex {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(id, posicio);
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		HexagonVertex that = (HexagonVertex) o;
+		return Objects.equals(id, that.id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		HexagonVertex other = (HexagonVertex) obj;
-		return Objects.equals(id, other.id) && Objects.equals(posicio, other.posicio)&& Objects.equals(vertex, other.vertex)&& Objects.equals(hexagon, other.hexagon);
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 
 	@Override

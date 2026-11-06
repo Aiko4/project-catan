@@ -194,9 +194,6 @@ public class Main {
 		for (Aresta a:partida.getArestes()){
 			a.setPartida_id(partida);
 		}
-		
-		System.out.println("HexagonVertex: " + hexagonsVertex.size());
-		System.out.println("HexagonVertex: " + partida.getVertexs());
 	}
 	
 	

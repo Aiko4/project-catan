@@ -11,20 +11,62 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.util.Objects;
+
 // S'utilitza JOINED per a les subclasses de Carretera i Assentament
 
 @Entity
 @Table(name = "construccio")
 @Inheritance(strategy = InheritanceType.JOINED)
 abstract class Construccio {
-	
+
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
-	private int id;
-	
+	private Integer id;
+
+	//Relacions
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "id_jugador")
 	private Jugador jugador;
 
+	//Constructor
+	public Construccio() {
+	}
+
+	public Construccio(Jugador jugador) {
+		this.jugador = jugador;
+	}
+
+	//Get Set
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Jugador getJugador() {
+		return jugador;
+	}
+
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Construccio that = (Construccio) o;
+		return id == that.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
+	}
+
+	///Falta toString() Format eclipse
+	///Verificar herència
 }

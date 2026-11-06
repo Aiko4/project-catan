@@ -16,18 +16,29 @@ import jakarta.validation.constraints.NotNull;
 @Table(name="jugador")
 public class Jugador {
 
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_jugador",nullable=false,unique=true)
 	private Integer id;
 
+	@Column(name="nom_jugador",nullable=false, length = 50)
+	private String nom;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name="color_jugador",nullable=false, length = 15)
+	private ColorJugador colorJugador;
+
+	@Column(name="ordre_torn",nullable=false)
+	private Integer ordreTorn;
+
+	@Column(name="cavallers_jugats",nullable=false)
+	@ColumnDefault("0")
+	private Integer cavallersJugats = 0;
+
+	//Relacions
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida_id;
-
-	@NotNull
-	@Column(name="nom_jugador",nullable=false, length = 50)
-	private String nom;
 
 	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Construccio> construccionsJugador = new ArrayList<>();
@@ -40,20 +51,6 @@ public class Jugador {
 	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL)
 	private List<CartaDesenvolupament> ma = new ArrayList<>();
 
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	@Column(name="color_jugador",nullable=false, length = 15)
-	private ColorJugador colorJugador;
-
-	@NotNull
-	@Column(name="ordre_torn",nullable=false)
-	private Integer ordreTorn;
-
-	@NotNull
-	@Column(name="cavallers_jugats",nullable=false)
-	@ColumnDefault("0")
-	private Integer cavallersJugats = 0;
-
 
 	// constructor buit per a Hibernate
 	public Jugador() {
@@ -65,6 +62,7 @@ public class Jugador {
 		this.ordreTorn = ordreTorn;
 	}
 
+	//Get Set
 	public Integer getId() {
 		return id;
 	}

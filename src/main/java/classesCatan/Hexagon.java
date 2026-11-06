@@ -11,35 +11,29 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name="hexagon")
 public class Hexagon {
-	
+
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_hexagon",nullable=false,unique=true)
 	private Integer id;
 	
-	@NotNull
 	@Column(name="codi_hexagon", nullable=false)
 	private Integer codi;
-	
-	//private boolean hasLladre;
-	
-	@NotNull
+
 	@Enumerated(EnumType.STRING)
 	@Column(name="terreny", nullable=false, length=15)
 	private TipusTerreny terreny;
 
-
-	@Column(name="num_hexagon", nullable=true)
+	@Column(name="num_hexagon")
 	private Integer numero;
 	
-	@NotNull
 	@Column(name="q_hexagon", nullable=false)
 	private Integer q;
 	
-	@NotNull
 	@Column(name="r_hexagon", nullable=false)
 	private Integer r;
-	
+
+	//Relacions
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id")
 	private Partida partida_id;
@@ -68,6 +62,7 @@ public class Hexagon {
 		
 	}
 
+	//Get Set
 	public Integer getId() {
 		return id;
 	}
@@ -133,28 +128,22 @@ public class Hexagon {
 	}
 
 	@Override
-	public String toString() {
-		return "Hexagon [id=" + id + ", codi=" + codi + ", terreny=" + terreny + ", numero=" + numero + ", q=" + q + ", r=" + r + "]";
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Hexagon hexagon = (Hexagon) o;
+		return Objects.equals(id, hexagon.id);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(codi, id, numero, q, r, terreny);
+		return Objects.hashCode(id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Hexagon other = (Hexagon) obj;
-		return Objects.equals(codi, other.codi) && Objects.equals(id, other.id) && Objects.equals(numero, other.numero)
-				&& Objects.equals(q, other.q) && Objects.equals(r, other.r) && terreny == other.terreny;
+	public String toString() {
+		return "Hexagon [id=" + id + ", codi=" + codi + ", terreny=" + terreny + ", numero=" + numero + ", q=" + q + ", r=" + r + "]";
 	}
-	
+
 
 	
 	

@@ -11,27 +11,27 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Objects;
+
 @Entity
 @Table(name="carta_desenvolupament")
 public class CartaDesenvolupament {
-	
+
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
 	private Integer id;
 	
-	@NotNull
 	@Column(name = "tipusCarta", nullable = false, length = 20)
 	private TipusCarta tipus;
 	
-	@NotNull
 	@Column(name = "usada", nullable = false)
 	private boolean usada;
 	
-	@NotNull
 	@Column(name = "rondaCompra", nullable = false)
 	private Integer rondaCompra;
-	
+
+	//Relacions
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida;
@@ -45,13 +45,13 @@ public class CartaDesenvolupament {
 	public CartaDesenvolupament() {		
 	}
 	
-	public CartaDesenvolupament(Integer id, TipusCarta tipus, boolean usada, Integer rondaCompra) {
-		this.id = id;
+	public CartaDesenvolupament(TipusCarta tipus, boolean usada, Integer rondaCompra) {
 		this.tipus = tipus;
 		this.usada = usada;
 		this.rondaCompra = rondaCompra;
 	}
 
+	//Get Set
 	public Integer getId() {
 		return id;
 	}
@@ -82,6 +82,34 @@ public class CartaDesenvolupament {
 
 	public void setRondaCompra(Integer rondaCompra) {
 		this.rondaCompra = rondaCompra;
+	}
+
+	public Partida getPartida() {
+		return partida;
+	}
+
+	public void setPartida(Partida partida) {
+		this.partida = partida;
+	}
+
+	public Jugador getJugador() {
+		return jugador;
+	}
+
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		CartaDesenvolupament that = (CartaDesenvolupament) o;
+		return Objects.equals(id, that.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 
 	@Override

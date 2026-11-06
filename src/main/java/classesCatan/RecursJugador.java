@@ -20,25 +20,25 @@ import jakarta.validation.constraints.NotNull;
 @Table(name="recursJugador", uniqueConstraints = @UniqueConstraint(columnNames = {"id_jugador","tipus_jugador"}))
 
 public class RecursJugador {
-	
+
+	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_recurs_jugador",nullable=false, unique=true)
 	private Integer id;
 	
-	@NotNull
 	@Column(name="tipus_jugador",nullable=false, length=20)
 	@Enumerated(EnumType.STRING)
 	private TipusRecurs tipus;
 	
-	@NotNull
 	@Column(name="quantitat_jugador",nullable=false)
 	private Integer quantitat;
-	
+
+	//Relacions
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "id_jugador")
 	private Jugador jugador;
-	
+
+	//Constructors
 	public RecursJugador() {
 		
 	}
@@ -48,6 +48,7 @@ public class RecursJugador {
 		this.quantitat = quantitat;
 	}
 
+	//Get Set
 	public Integer getId() {
 		return id;
 	}
@@ -81,20 +82,15 @@ public class RecursJugador {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(id, quantitat, tipus);
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		RecursJugador that = (RecursJugador) o;
+		return Objects.equals(id, that.id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RecursJugador other = (	RecursJugador) obj;
-		return Objects.equals(id, other.id) && Objects.equals(quantitat, other.quantitat) && tipus == other.tipus;
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 
 	@Override
