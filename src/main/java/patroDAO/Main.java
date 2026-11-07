@@ -12,36 +12,36 @@ import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.mysql.cj.Session;
+
 import enums.EstatPartida;
 import enums.TipusTerreny;
 
 
 public class Main {
 	
-	private static SessionFactory sessionFactory;
 	private static Scanner scanner=new Scanner(System.in);;
-
-	// La SessionFactory és cara de crear: només n'hi ha UNA per a tota l'aplicació
-	public static synchronized SessionFactory getSessionFactory() {
-		if (sessionFactory == null) {
-			try {
-				sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-			} catch (HibernateException e) {
-				System.err.println("Error al crear la SessionFactory: " + e.getMessage());
-				throw new ExceptionInInitializerError(e);
-			}
-		}
-		return sessionFactory;
-	}
 	
 	public static void main(String args[]) {
-		sessionFactory = getSessionFactory();
-		ArrayList <String> nomsJugadors=nombrarJugadors();
-
-		Integer idPartida=iniciarPartida(nomsJugadors);
-		System.out.println("Id de la partida: "+idPartida);
 		
+		PartidaDao pDao = new PartidaDao();
+		
+		try {
+			titol("CONFIGURACIO INCIAL DE LA PARTIDA");
+			System.out.print("Introdueix la quantitat de punts per guanyar: ");
+			int puntsPerGuanyar = getInt(1,100);
+			ArrayList <String> nomsJugadors=nombrarJugadors();
+			titol("CREANT PARTIDA...");
+			Integer idPartida = pDao.IniciarPartida(nomsJugadors, puntsPerGuanyar);
+			System.out.println("Id de la partida: "+idPartida);	
+		} finally {
+			SessionManager.tancar();
+		}
+
 	}
+	
+
+	
 	//Recull de 2 a 4 noms diferents en un ArrayList
 	private static ArrayList<String> nombrarJugadors() {
 		ArrayList <String> noms=new ArrayList<>();
@@ -80,122 +80,13 @@ public class Main {
 				System.out.print("Vols afegir més jugadors? (S/N): ");
 				addJugadorSN=getBoolean();
 			}
-
-
 		}
-
 		return noms;
 	}
 
-	//======================================
-	//          Creació de partida
-	//======================================
-	public static int iniciarPartida(List<String> nomsJugadors) {
-		System.out.println("** CREANT PARTIDA... **");
-		EstatPartida estat=EstatPartida.PREPARACIO;
-		LocalDate dataInici= LocalDate.now();
-		int ronda=0;
-		int ultimaTirada=0;
-		System.out.print("Introdueix la quantitat de punts per guanyar: ");
-		int puntsPerGuanyar=getInt(1,100);
-		boolean dausTirats=false;
-		boolean lladrePendent=false;
-		Partida partida = new Partida(estat,dataInici,ronda,ultimaTirada,puntsPerGuanyar,dausTirats,lladrePendent);
-		//assignar taulell a la partida
-		crearTaulell(partida);
-
-		//Barrejar noms, assignar colors i ordre
-		prepararJugadors(nomsJugadors,partida);
-
-		
-		
-		System.out.println("** PARTIDA CREADA **\n");
-
-		//INSERT de partida a la BBDD
-		PartidaDao partidaDao=new PartidaDao();
-		partida = partidaDao.saveOrUpdate(partida);
-		return partida.getId();
-	}
-
-	private static void prepararJugadors(List<String> nomsJugadors, Partida partida) {
-		Collections.shuffle(nomsJugadors);
-		int ordreJugador=0;
-		for (String nom:nomsJugadors){
-			ColorJugador color = ColorJugador.values()[ordreJugador];
-			ordreJugador++;
-			Jugador jugador=new Jugador(nom,color,ordreJugador);
-			jugador.setPartida_id(partida);
-			partida.getJugadors().add(jugador);
-		}
-		for (Jugador j:partida.getJugadors()){
-			Map<TipusRecurs, RecursJugador> inventari=j.getInventari();
-			for(TipusRecurs tr:TipusRecurs.values()){
-				RecursJugador rj=new RecursJugador(tr,0);
-				rj.setJugador(j);
-				inventari.put(tr,rj);
-			}
-		}
-	}
-
-
-	private static void crearTaulell(Partida partida) {
-		HashMap<Integer, Vertex> mapaVertex=new HashMap<>();
-		HashMap<Integer, Hexagon> mapaHexagons=new HashMap<>();
-		partida.setVertexs(ImportarFitxer.importar("/dades/vertexs.csv",mapaVertex,mapaHexagons));
-		partida.setHexagons(ImportarFitxer.importar("/dades/hexagons.csv",mapaVertex,mapaHexagons));
-		HashSet <HexagonVertex> hexagonsVertex=ImportarFitxer.importar("/dades/hexagon_vertex.csv",mapaVertex,mapaHexagons);
-		partida.setArestes(ImportarFitxer.importar("/dades/arestes.csv",mapaVertex,mapaHexagons));
-
-		ArrayList<Integer> numerosHexagons = new ArrayList<>(List.of(2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12));
-		ArrayList<TipusTerreny> terrenyHexagon = new ArrayList<>(List.of(TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC, TipusTerreny.BOSC,
-				TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES, TipusTerreny.PASTURES,
-				TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS, TipusTerreny.CAMPS,
-				TipusTerreny.TURONS, TipusTerreny.TURONS, TipusTerreny.TURONS,
-				TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES, TipusTerreny.MUNTANYES,
-				TipusTerreny.DESERT));
-
-		Collections.shuffle(numerosHexagons);
-		Collections.shuffle(terrenyHexagon);
-		int hex = 0;
-		int num = 0;
-		for (Hexagon h : partida.getHexagons()) {
-		    h.setPartida_id(partida);
-		    TipusTerreny terreny = terrenyHexagon.get(hex);
-		    h.setTerreny(terreny);
-		    if (terreny == TipusTerreny.DESERT) {
-		    	partida.setLladre(h);
-		        h.setNumero(null);
-		    } else {
-		        h.setNumero(numerosHexagons.get(num));
-		        num++;
-		    }
-		    hex++;
-		    
-		    for(HexagonVertex hv : hexagonsVertex) {
-		    	if (hv.getHexagon().getCodi() == h.getCodi()) {
-		    		h.getVertexsHexagon().add(hv);
-		    		hv.setHexagon(h);
-		    	}
-		    }
-		}
-		for (Vertex v:partida.getVertexs()){
-			v.setPartida_id(partida);
-			for(HexagonVertex hv : hexagonsVertex) {
-		    	if (hv.getVertex().getCodi() == v.getCodi()) {
-		    		v.getHexagonVertex().add(hv);
-		    		hv.setVertex(v);
-		    	}
-		    }
-		}
-		for (Aresta a:partida.getArestes()){
-			a.setPartida_id(partida);
-		}
-	}
-	
-	
 
 	//============================
-	//          Scanners
+	//          Auxiliars
 	//============================
 	public static int getInt() {
 		int i=0;
@@ -278,5 +169,9 @@ public class Main {
 				return s;
 			}
 		}
+	}
+	
+	private static void titol(String text) {
+		System.out.println("\n========== " + text + " ==========");
 	}
 }

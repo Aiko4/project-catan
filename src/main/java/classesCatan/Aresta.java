@@ -105,19 +105,20 @@ public class Aresta {
 	public void setCarretera(Carretera carretera) {
 		this.carretera = carretera;
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		Aresta aresta = (Aresta) o;
-		return Objects.equals(id, aresta.id);
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    Aresta aresta = (Aresta) o;
+	    return Objects.equals(codi, aresta.codi);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(id);
+	    return Objects.hashCode(codi);
 	}
-
 	@Override
 	public String toString() {
 		return "Aresta [id=" + id + ", codi=" + codi + "]";

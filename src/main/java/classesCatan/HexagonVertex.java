@@ -82,14 +82,18 @@ public class HexagonVertex {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		HexagonVertex that = (HexagonVertex) o;
-		return Objects.equals(id, that.id);
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    HexagonVertex that = (HexagonVertex) o;
+
+	    return Objects.equals(hexagon, that.hexagon)
+	            && Objects.equals(vertex, that.vertex);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(id);
+	    return Objects.hash(hexagon, vertex);
 	}
 
 	@Override

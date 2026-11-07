@@ -10,6 +10,17 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="hexagon")
+@NamedQuery(
+		name = "Hexagon.MostrarTauler",
+		query = "SELECT DISTINCT p " +
+				"FROM Partida p " +
+				"LEFT JOIN FETCH p.hexagons h " + 
+	            "LEFT JOIN FETCH h.vertexsHexagon hv " +
+	            "LEFT JOIN FETCH hv.vertex v " +
+	            "LEFT JOIN FETCH v.assentament a " +
+	            "LEFT JOIN FETCH a.jugador " +
+	            "WHERE p.id = :idPartida"	
+)
 public class Hexagon {
 
 	//Atributs
@@ -129,14 +140,17 @@ public class Hexagon {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		Hexagon hexagon = (Hexagon) o;
-		return Objects.equals(id, hexagon.id);
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    Hexagon hexagon = (Hexagon) o;
+
+	    return Objects.equals(codi, hexagon.codi);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(id);
+	    return Objects.hashCode(codi);
 	}
 
 	@Override
