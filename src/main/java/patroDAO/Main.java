@@ -1,11 +1,10 @@
-package classesCatan;
+package patroDAO;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 
+import classesCatan.*;
 import enums.ColorJugador;
 import enums.TipusRecurs;
 import gestioFitxers.ImportarFitxer;
@@ -15,9 +14,6 @@ import org.hibernate.cfg.Configuration;
 
 import enums.EstatPartida;
 import enums.TipusTerreny;
-
-import org.hibernate.collection.spi.PersistentBag;
-import patroDAO.PartidaDao;
 
 
 public class Main {
@@ -143,8 +139,8 @@ public class Main {
 
 
 	private static void crearTaulell(Partida partida) {
-		HashMap<Integer,Vertex> mapaVertex=new HashMap<>();
-		HashMap<Integer,Hexagon> mapaHexagons=new HashMap<>();
+		HashMap<Integer, Vertex> mapaVertex=new HashMap<>();
+		HashMap<Integer, Hexagon> mapaHexagons=new HashMap<>();
 		partida.setVertexs(ImportarFitxer.importar("/dades/vertexs.csv",mapaVertex,mapaHexagons));
 		partida.setHexagons(ImportarFitxer.importar("/dades/hexagons.csv",mapaVertex,mapaHexagons));
 		HashSet <HexagonVertex> hexagonsVertex=ImportarFitxer.importar("/dades/hexagon_vertex.csv",mapaVertex,mapaHexagons);
