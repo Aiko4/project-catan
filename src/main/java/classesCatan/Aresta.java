@@ -9,12 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="aresta")
+@NamedQuery(
+		name = "Aresta.buscarPerCodi",
+		query = "FROM Aresta a WHERE a.codi = :codi"
+)
 public class Aresta {
 
 	//Atributs
@@ -22,7 +27,7 @@ public class Aresta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name="codi_aresta", nullable=false)
+	@Column(name="codi", nullable=false)
 	private Integer codi;
 
 	//Relacions

@@ -1,15 +1,43 @@
 package patroDAO;
 
+import classesCatan.*;
+
+import java.util.List;
+
 import org.hibernate.Session;
 
 import classesCatan.Carretera;
 import classesCatan.Ciutat;
+import classesCatan.Hexagon;
 import classesCatan.Jugador;
 import classesCatan.Poblat;
 import enums.TipusRecurs;
 
 public class JugadorDao extends GenericDao<Jugador, Integer> implements IJugadorDao{
 
+	@Override
+	public List<RecursJugador> MostrarRecursos(int idJugador) {
+		Session session = sessionFactory.getCurrentSession();
+		List<RecursJugador> recursos = null;
+		try {
+			session.beginTransaction();
+			recursos = MostrarRecursos(session, idJugador);
+			session.getTransaction().commit();	
+			return recursos;
+		} catch (RuntimeException e) {
+			handleException(session, e);
+			throw e;
+		}	
+	}
+	
+	private List<RecursJugador> MostrarRecursos(Session session, int idJugador) {
+		return session.createNamedQuery("Jugador.buscarRecursos", RecursJugador.class)
+		.setParameter("id", idJugador)
+		.getResultList();
+	}
+	
+
+	
 	@Override
 	public Carretera ConstruirCarretera(int idJugador, int idAresta) {
 		Session session = sessionFactory.getCurrentSession();
@@ -100,6 +128,13 @@ public class JugadorDao extends GenericDao<Jugador, Integer> implements IJugador
 	private void PassarTorn(Session session, int idJugador) {
 		
 		
+	}
+	
+	
+	private <E> E buscarPerId(Session session, Class<E> classe, int id) {
+		return session.createQuery("FROM " + classe.getName() + " e WHERE e.id = :id", classe)
+				.setParameter("id", id)
+				.uniqueResult();
 	}
 
 }

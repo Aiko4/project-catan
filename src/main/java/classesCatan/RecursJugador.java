@@ -34,7 +34,7 @@ public class RecursJugador {
 	private Integer quantitat;
 
 	//Relacions
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "id_jugador")
 	private Jugador jugador;
 

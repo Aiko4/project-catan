@@ -10,17 +10,22 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="hexagon")
-@NamedQuery(
-		name = "Hexagon.MostrarTauler",
-		query = "SELECT DISTINCT p " +
-				"FROM Partida p " +
-				"LEFT JOIN FETCH p.hexagons h " + 
-	            "LEFT JOIN FETCH h.vertexsHexagon hv " +
-	            "LEFT JOIN FETCH hv.vertex v " +
-	            "LEFT JOIN FETCH v.assentament a " +
-	            "LEFT JOIN FETCH a.jugador " +
-	            "WHERE p.id = :idPartida"	
-)
+@NamedQueries({
+	@NamedQuery(
+			name = "Hexagon.buscarPerCodi",
+			query = "FROM Hexagon h WHERE h.codi = :codi"
+	),
+	
+	@NamedQuery(
+			name = "Hexagon.MostrarTauler",
+		    query = "SELECT DISTINCT h " +
+		            "FROM Hexagon h " +
+		            "LEFT JOIN FETCH h.vertexsHexagon hv " +
+		            "LEFT JOIN FETCH hv.vertex v " +
+		            "LEFT JOIN FETCH v.assentament a " +
+		            "LEFT JOIN FETCH a.jugador " +
+		            "WHERE h.partida_id.id = :idPartida"
+)})
 public class Hexagon {
 
 	//Atributs
@@ -28,7 +33,7 @@ public class Hexagon {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="codi_hexagon", nullable=false)
+	@Column(name="codi", nullable=false)
 	private Integer codi;
 
 	@Enumerated(EnumType.STRING)
@@ -45,11 +50,11 @@ public class Hexagon {
 	private Integer r;
 
 	//Relacions
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "partida_id")
 	private Partida partida_id;
 
-	@OneToMany(mappedBy = "hexagon", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "hexagon", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<HexagonVertex> vertexsHexagon = new HashSet<>();
 	
 	// constructor hibernate

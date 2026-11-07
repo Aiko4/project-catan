@@ -11,7 +11,7 @@ public final class Missatges {
 	}
 
 	// Correctes
-	public static final String CATEGORIA_AFEGIDA = "Categoria afegida";
+	public static final String PARTIDA_CREADA = "Partida creada";
 	public static final String LLANCAMENT_AFEGIT = "Llançament afegit";
 	public static final String VIDEOJOC_ESBORRAT = "Videojoc esborrat";
 

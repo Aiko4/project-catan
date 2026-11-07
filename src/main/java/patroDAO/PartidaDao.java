@@ -10,14 +10,7 @@ import java.util.Map;
 
 import org.hibernate.Session;
 
-import classesCatan.Aresta;
-import classesCatan.Carretera;
-import classesCatan.Hexagon;
-import classesCatan.HexagonVertex;
-import classesCatan.Jugador;
-import classesCatan.Partida;
-import classesCatan.RecursJugador;
-import classesCatan.Vertex;
+import classesCatan.*;
 import enums.ColorJugador;
 import enums.EstatPartida;
 import enums.TipusRecurs;
@@ -105,11 +98,6 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		HashSet <HexagonVertex> hexagonsVertex=ImportarFitxer.importar("hexagon_vertex.csv",mapaVertex,mapaHexagons);
 		partida.setArestes(ImportarFitxer.importar("arestes.csv",mapaVertex,mapaHexagons));
 		
-		System.out.println("Vertexs: " + partida.getVertexs().size());
-		System.out.println("Hexagons: " + partida.getHexagons().size());
-		System.out.println("HexagonVertex: " + hexagonsVertex.size());
-		System.out.println("Arestes: " + partida.getArestes().size());
-		
 		return hexagonsVertex;
 	}
 	
@@ -175,18 +163,53 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 			session.getTransaction().commit();	
 		} catch (RuntimeException e) {
 			handleException(session, e);
+			throw e;
 		}		
 	}
 	
+	// metode de @namedQuery
 	private void MostrarPartida(Session session, int idPartida) {
 		
 		
+		// informacio de la partida actual (per id)
+		Partida p = session.createNamedQuery("Partida.infoPartida", Partida.class)
+				.setParameter("id", idPartida)
+				.uniqueResult();
+		
+		// retorna els jugadors amb les seves construccions
+		List<Jugador> jugadors = session.createNamedQuery("Jugador.construccionsPerJugador", Jugador.class)
+				.setParameter("idPartida", idPartida)
+				.getResultList();
+		
+		
+		// per cada jugador es fa recompte de recursos
+		for (Jugador j: jugadors) {
+			List<Object[]> recursos = session.createNamedQuery("Jugador.numRecursosJugadors", Object[].class)
+					.setParameter("id", j.getId())
+					.getResultList();
+		}
+	}
+
+	
+	@Override
+	public List<Hexagon> MostrarTauler(int idPartida) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Hexagon> hexagons = null;
+		try {
+			session.beginTransaction();
+			hexagons = MostrarTauler(session, idPartida);
+			session.getTransaction().commit();	
+			return hexagons;
+		} catch (RuntimeException e) {
+			handleException(session, e);
+			throw e;
+		}	
 	}
 	
-	
 	// metode de @namedQuery
-	public List<Hexagon> MostrarTauler(Session session, int idPartida) {
-		return session.createQuery("Hexagon.MostrarTauler", Hexagon.class)
+	public List<Hexagon> MostrarTauler(Session session, int idPartida) { 
+		
+		return session.createNamedQuery("Hexagon.MostrarTauler", Hexagon.class)
 				.setParameter("idPartida", idPartida)
 				.getResultList();
 	}
@@ -202,7 +225,7 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 			session.getTransaction().commit();	
 		} catch (RuntimeException e) {
 			handleException(session, e);
-			throw e;
+			return Missatges.ERROR_BD;
 		}		
 		return resumTirada;
 	}
@@ -233,9 +256,9 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 	//  	  AUXILIARS
 	//============================
 	
-	private <E> E buscarPerId(Session session, Class<E> classe, int id) {
-		return session.createQuery("FROM " + classe.getName() + " e WHERE e.id = :id", classe)
-				.setParameter("id", id)
+	private <E> E buscarPerCodi(Session session, Class<E> classe, int codi) {
+		return session.createQuery("FROM " + classe.getName() + " e WHERE e.codi = :codi", classe)
+				.setParameter("codi", codi)
 				.uniqueResult();
 	}
 

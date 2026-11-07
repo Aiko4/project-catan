@@ -1,21 +1,9 @@
 package patroDAO;
 
-import java.time.LocalDate;
 import java.util.*;
-import java.util.List;
 
 import classesCatan.*;
-import enums.ColorJugador;
-import enums.TipusRecurs;
-import gestioFitxers.ImportarFitxer;
-import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-import com.mysql.cj.Session;
-
-import enums.EstatPartida;
-import enums.TipusTerreny;
 
 
 public class Main {
@@ -25,6 +13,7 @@ public class Main {
 	public static void main(String args[]) {
 		
 		PartidaDao pDao = new PartidaDao();
+		JugadorDao jDao = new JugadorDao();
 		
 		try {
 			titol("CONFIGURACIO INCIAL DE LA PARTIDA");
@@ -33,7 +22,11 @@ public class Main {
 			ArrayList <String> nomsJugadors=nombrarJugadors();
 			titol("CREANT PARTIDA...");
 			Integer idPartida = pDao.IniciarPartida(nomsJugadors, puntsPerGuanyar);
-			System.out.println("Id de la partida: "+idPartida);	
+			System.out.println("Id de la partida creada: "+idPartida);	
+			titol("MOSTRANT TAULER...");
+			mostrarTaulerMain(pDao, idPartida);
+			titol("MOSTRANT RECURSOS...");
+			mostrarRecursosMain(jDao, 1);
 		} finally {
 			SessionManager.tancar();
 		}
@@ -41,6 +34,39 @@ public class Main {
 	}
 	
 
+	private static void mostrarTaulerMain(PartidaDao pDao, int idPartida) {
+		List<Hexagon> hexagons = pDao.MostrarTauler(idPartida);
+
+	    for (Hexagon h : hexagons) {
+
+	        System.out.println("Terreny: " + h.getTerreny());
+	        System.out.println("Número: " + h.getNumero());
+
+	        for (HexagonVertex hv : h.getVertexsHexagon()) {
+
+	            Vertex v = hv.getVertex();
+
+	            if (v.getAssentament() != null) {
+	                System.out.println("Construcció: " + v.getAssentament());
+	                System.out.println("Propietari: " +
+	                        v.getAssentament().getJugador());
+	            }
+	        }
+	    }
+	}
+	
+	private static void mostrarRecursosMain(JugadorDao jDao, int idJugador) {
+		
+		List<RecursJugador> recursosJugador = jDao.MostrarRecursos(idJugador);
+		System.out.println("Jugador amb ID: " + idJugador);
+		
+		for (RecursJugador rj : recursosJugador) {
+			
+			System.out.println("Tipus de recurs: " + rj.getTipus());
+			System.out.println("Quantitat: " + rj.getQuantitat());
+		}
+		
+	}
 	
 	//Recull de 2 a 4 noms diferents en un ArrayList
 	private static ArrayList<String> nombrarJugadors() {

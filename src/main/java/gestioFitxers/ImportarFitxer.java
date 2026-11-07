@@ -41,8 +41,6 @@ public class ImportarFitxer {
 					Vertex vertexB = vertexs.get(arrayNombres[2]);
 					Aresta aresta = new Aresta(arrayNombres[0], vertexA, vertexB);
 					arestes.add(aresta);
-					System.out.println("Aresta llegida: " + arrayNombres[0]);
-					System.out.println("Total al HashSet: " + arestes.size());
 				}
 				return arestes;
 
@@ -56,8 +54,6 @@ public class ImportarFitxer {
 					Vertex vertex = vertexs.get(arrayNombres[1]);
 					HexagonVertex hv = new HexagonVertex(arrayNombres[2], hexagon, vertex);
 					hexagonVertexs.add(hv);
-					System.out.println("HexagonVertex llegit: " + arrayNombres[2]);
-					System.out.println("Total al HashSet: " + hexagonVertexs.size());
 				}
 				return hexagonVertexs;
 
@@ -69,8 +65,6 @@ public class ImportarFitxer {
 					}
 					Hexagon hexagon = new Hexagon(arrayNombres[0], arrayNombres[1], arrayNombres[2]);
 					hexagons.put(arrayNombres[0], hexagon);
-					System.out.println("Hexagon llegit: " + arrayNombres[0]);
-					System.out.println("Total al mapa: " + hexagons.size());
 				}
 				return new HashSet<>(hexagons.values());
 

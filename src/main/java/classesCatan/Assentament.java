@@ -18,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 // de moment he tret la single table perque tampoc fa res
 @Entity
 @Table(name = "assentament")
-abstract class Assentament extends Construccio {
+public abstract class Assentament extends Construccio {
 	//Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

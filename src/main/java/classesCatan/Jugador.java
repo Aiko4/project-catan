@@ -14,6 +14,29 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="jugador")
+@NamedQueries({
+	@NamedQuery(
+			name = "Jugador.buscarRecursos",
+			query = "SELECT i " + 
+					"FROM Jugador j " +
+					"JOIN j.inventari i " +
+					"WHERE j.id = :id"
+	),
+	@NamedQuery(
+			name = "Jugador.numRecursosJugadors",
+			query = "SELECT j.id, SUM(r.quantitat) " +
+					"FROM Jugador j " +
+					"JOIN j.inventari r " +
+					"WHERE j.partida_id.id = :partida_id " +
+					"GROUP BY j.id"		
+	),
+	@NamedQuery(
+			name = "Jugador.construccionsPerJugador",
+			query = "SELECT DISTINCT j " +
+					"FROM Jugador j " +
+					"LEFT JOIN FETCH j.construccionsJugador " +
+					"WHERE j.partida_id.id = :idPartida"
+)})
 public class Jugador {
 
 	//Atributs
@@ -40,10 +63,10 @@ public class Jugador {
 	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida_id;
 
-	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Construccio> construccionsJugador = new ArrayList<>();
 
-	@OneToMany(mappedBy = "jugador",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "jugador",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
 	@MapKey(name = "tipus")
 	@MapKeyEnumerated(EnumType.STRING)
 	private Map<TipusRecurs, RecursJugador> inventari = new HashMap<>();

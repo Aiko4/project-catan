@@ -9,6 +9,10 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "vertex")
+@NamedQuery(
+		name = "Vertex.buscarPerCodi",
+		query = "FROM Vertex v WHERE v.codi = :codi"
+)
 public class Vertex {
 
 	//Atributs
@@ -20,20 +24,20 @@ public class Vertex {
 	private Integer codi;
 
 	//Relacions
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "partida_id")
 	private Partida partida_id;
 	
-	@OneToMany(mappedBy="vertexA", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Aresta> arestesA;
+	@OneToMany(mappedBy="vertexA", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private Set<Aresta> arestesA;
 	
-	@OneToMany(mappedBy="vertexB", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private HashSet<Aresta> arestesB;
+	@OneToMany(mappedBy="vertexB", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private Set<Aresta> arestesB;
 
-	@OneToMany(mappedBy = "vertex", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "vertex", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<HexagonVertex> hexagonVertex = new HashSet<>();
 	
-	@OneToOne(mappedBy = "vertex", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToOne(mappedBy = "vertex", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Assentament assentament;
 	
 	// constructor hibernate
@@ -70,19 +74,19 @@ public class Vertex {
 		this.partida_id = partida_id;
 	}
 
-	public HashSet<Aresta> getArestesA() {
+	public Set<Aresta> getArestesA() {
 		return arestesA;
 	}
 
-	public void setArestesA(HashSet<Aresta> arestesA) {
+	public void setArestesA(Set<Aresta> arestesA) {
 		this.arestesA = arestesA;
 	}
 
-	public HashSet<Aresta> getArestesB() {
+	public Set<Aresta> getArestesB() {
 		return arestesB;
 	}
 
-	public void setArestesB(HashSet<Aresta> arestesB) {
+	public void setArestesB(Set<Aresta> arestesB) {
 		this.arestesB = arestesB;
 	}
 
