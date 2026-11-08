@@ -285,6 +285,7 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 			int punts = calcularPuntsJugador(j);
 			if(punts >= partida.getPuntsPerGuanyar()) {
 				partida.setEstatPartida(EstatPartida.FINALITZADA);
+				partida.setGuanyador(j);
 				System.out.println("PARTIDA FINALITZADA. El jugador " + j.getNom() + " ha guanyat amb " + punts + " punts.");
 				break;
 			}
@@ -479,7 +480,19 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 			if (c instanceof Poblat) punts += 1;
 			if (c instanceof Ciutat) punts += 2;
 		}
-		return punts;
+		
+	    for (CartaDesenvolupament carta : j.getMa()) {
+
+	        if (carta.getTipus() == TipusCarta.PUNT_VICTORIA) {
+	            punts++;
+	        }
+	    }
+
+
+	    return punts;
+
+		
+		
 	}
 	
 	
