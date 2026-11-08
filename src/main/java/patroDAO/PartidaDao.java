@@ -204,10 +204,10 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 			System.out.println("Jugador amb id: "+j.getId());
 			//Calcular els punts del jugador (cartes desenvolupament)
 			System.out.println("  Punts: ?");
-			System.out.println("  Poblats: "+poblats);
-			System.out.println("  Ciutats: "+ciutats);
-			System.out.println("  Carreteres: "+carreteres);
-			System.out.println("  Total de recursos: "+totalRecursos);
+			System.out.println("  Poblats: " + poblats);
+			System.out.println("  Ciutats: " + ciutats);
+			System.out.println("  Carreteres: " + carreteres);
+			System.out.println("  Total de recursos: " + totalRecursos);
 
 
 
@@ -291,20 +291,145 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		}
 	}
 	
-	public int calcularPuntsJugador(Jugador j) {
-		int punts = 0;
-		for (Construccio c : j.getConstruccionsJugador()) {
-			if (c instanceof Poblat) punts += 1;
-			if (c instanceof Ciutat) punts += 2;
-		}
-		return punts;
-	}
-	
+
 	//----------------------------------------------------------
 	
+	// PART AVANÇADA -----------------------------------------------
+	
+	@Override
+	public boolean jugarCavaller(int idJugador, int idCarta) {
+		Session session = sessionFactory.getCurrentSession();
+		try {
+			session.beginTransaction();
+			boolean exit = jugarCavaller(session, idJugador, idCarta);
+			if (exit) {
+				
+				ComprovarVictoria(session, idJugador);
+				session.getTransaction().commit();
+			} else {
+				session.getTransaction().rollback();
+			}
+			return exit;
+		} catch (RuntimeException e) {
+			handleException(session, e);
+			return false;
+		}
+	}
+	
+	
+	
+	private boolean jugarCavaller(Session session, int idJugador, int idCarta) {
+		
+		Jugador jugador = session.get(Jugador.class, idJugador);
+		CartaDesenvolupament carta = session.get(CartaDesenvolupament.class, idCarta);
+		
+		//Validacions de seguretat
+		
+		if (jugador == null || carta == null) { 
+			return false;
+		}
 
+		Partida partida = jugador.getPartida_id();
+		
+		if (partida == null || partida.getEstatPartida() == EstatPartida.FINALITZADA) {
+			return false;
+		}
+		
+		if (partida.getActiu() == null || partida.getActiu().getId() != idJugador) { 
+			return false;
+		}
+		if (carta.isUsada()) {
+			return false;
+		}
+		if (carta.getJugador() == null || carta.getJugador().getId() != idJugador) {
+			return false;
+		}
+		
+		if (carta.getRondaCompra() == partida.getRonda()) { 
+			return false; 
+		} 
+		
+		if (carta.getTipus() != TipusCarta.CAVALLER) { 
+			return false;
+		}
+		
+		//Apliquem l'efecte del cavaller (Sumem 1 cavaller si juguem amb CAVALLER)
+		carta.setUsada(true);
+		jugador.setCavallersJugats(jugador.getCavallersJugats() + 1);
+		partida.setLladrePendent(true);
+		
+		return true;
+	}
 	
+	//-----------------------------------------------------------------------------
 	
+	@Override
+	public void jugarMonopoli(int idJugador, int idCarta, TipusRecurs recursEscollit) {
+		Session session = sessionFactory.getCurrentSession();
+		try {
+			session.beginTransaction();
+			
+			
+			boolean exit = jugarMonopoli(session, idJugador, idCarta, recursEscollit);
+			
+			if (exit) {
+				session.getTransaction().commit();
+			} else {
+				session.getTransaction().rollback();
+			}
+		} catch (RuntimeException e) {
+			handleException(session, e);
+		}
+	}
+
+	private boolean jugarMonopoli(Session session, int idJugador, int idCarta, TipusRecurs recursEscollit) {
+		
+		//Validacions de seguretat
+		
+		if (recursEscollit == null) { 
+			return false; 
+		}
+
+		Jugador jugador = session.get(Jugador.class, idJugador);
+		
+		CartaDesenvolupament carta = session.get(CartaDesenvolupament.class, idCarta);
+		if (jugador == null || carta == null) {
+			return false;
+		}
+
+		
+		Partida partida = jugador.getPartida_id();
+		
+		if (partida == null || partida.getEstatPartida() == EstatPartida.FINALITZADA) { 
+			return false; 
+		}
+
+		
+		if (partida.getActiu() == null || partida.getActiu().getId() != idJugador) { 
+			return false; 
+		}
+		if (carta.isUsada()) {
+			return false; 
+		}
+		
+		if (carta.getJugador() == null || carta.getJugador().getId() != idJugador) {
+			return false;
+		}
+		
+		if (carta.getRondaCompra() == partida.getRonda()) { 
+			return false; 
+		}
+		
+		if (carta.getTipus() != TipusCarta.MONOPOLI) { 
+			return false;
+		}
+
+		return true;
+				
+		//Falta la lógica en cas d'èxit.
+	
+	}
+
 	//============================
 	//  	  AUXILIARS
 	//============================
@@ -348,5 +473,15 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		partida.setPilaCartes(pila);
 	}
 
+	public int calcularPuntsJugador(Jugador j) {
+		int punts = 0;
+		for (Construccio c : j.getConstruccionsJugador()) {
+			if (c instanceof Poblat) punts += 1;
+			if (c instanceof Ciutat) punts += 2;
+		}
+		return punts;
+	}
+	
+	
 
 }
