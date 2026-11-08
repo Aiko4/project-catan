@@ -12,4 +12,5 @@ public interface IPartidaDao extends IGenericDao<Partida, Integer>{
 	void MostrarPartida(int idPartida); // consulta SQL --> NAMED QUERY
 	String TirarDaus(int idPartida);
 	void ComprovarVictoria(int idPartida);
+	
 }

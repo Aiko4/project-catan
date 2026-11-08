@@ -14,4 +14,6 @@ public interface IJugadorDao extends IGenericDao<Jugador, Integer>{
 	void ComerciarBanca(int idJugador, TipusRecurs dona, TipusRecurs rep);
 	// void CalcularPunts(int idJugador); // consulta SQL --> NAMED QUERY
 	void PassarTorn(int idJugador);
+	boolean comprarCarta(int idJugador);
+	
 }

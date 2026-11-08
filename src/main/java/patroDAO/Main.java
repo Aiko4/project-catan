@@ -32,6 +32,7 @@ public class Main {
 			mostrarRecursosMain(jDao, 4);
 			titol("MOSTRANT PARTIDA...");
 			mostrarPartida(pDao,idPartida);
+			
 
 		} finally {
 			SessionManager.tancar();

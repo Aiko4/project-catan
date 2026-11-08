@@ -491,6 +491,76 @@
 
 			
 		}
+		
+		//----------------------------------------------------------
+		
+		@Override
+		public boolean comprarCarta(int idJugador) {
+			Session session = sessionFactory.getCurrentSession();
+			
+			try {
+				session.beginTransaction();
+				comprarCarta(session,idJugador);
+				session.getTransaction().commit();
+			} catch (RuntimeException e) {
+				handleException(session, e);
+			}
+			return false;
+		}
+		
+		
+		
+
+		private void comprarCarta(Session session, int idJugador) {
+			Jugador jugador = session.get(Jugador.class, idJugador);
+			
+			if (jugador == null) { 
+				return;
+			}
+			
+			// Rebutjar si la partida ha finalitzat
+			Partida partida = jugador.getPartida_id();
+			if (partida == null) { 
+				return; 
+			}
+			
+			// Comprovacions de seguretat. Si encara es el torn del jugador
+			if (partida.getActiu() == null || partida.getActiu().getId() != idJugador) { 
+				return; 
+			}
+			
+			List<CartaDesenvolupament> pila = partida.getPilaCartes();
+			if(pila.isEmpty() || pila == null) {
+				return;
+			}
+
+			
+			RecursJugador rjBlat = jugador.getInventari().get(TipusRecurs.BLAT);
+			RecursJugador rjLlana = jugador.getInventari().get(TipusRecurs.LLANA);
+			RecursJugador rjMineral = jugador.getInventari().get(TipusRecurs.MINERAL);
+			
+			//Comprovacio de seguretat. Assegurem que el usuari té almenys 1 recurs al seu inventari.
+			if(rjBlat == null || rjBlat.getQuantitat() < 1 || rjLlana == null || rjLlana.getQuantitat() < 1 || rjMineral == null || rjMineral.getQuantitat() < 1) {
+				return;
+			}
+			
+			
+			//Descomptem els recursos 
+			rjBlat.setQuantitat(rjBlat.getQuantitat() - 1);
+			rjLlana.setQuantitat(rjLlana.getQuantitat() - 1);
+			rjMineral.setQuantitat(rjMineral.getQuantitat() - 1);
+			
+			//Agafem la primera carta de la pila de la partida i la assignem al jugador.
+			CartaDesenvolupament carta = pila.remove(0);
+			carta.setJugador(jugador);
+			carta.setRondaCompra(partida.getRonda());
+			carta.setUsada(false);
+			
+			jugador.getMa().add(carta);
+			session.persist(carta);
+			
+		}
+		
 
 
 		//==========================================================

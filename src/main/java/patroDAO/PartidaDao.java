@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import classesCatan.*;
 import enums.ColorJugador;
 import enums.EstatPartida;
+import enums.TipusCarta;
 import enums.TipusRecurs;
 import enums.TipusTerreny;
 import gestioFitxers.ImportarFitxer;
@@ -214,6 +215,7 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 	}
 
 	
+	
 	@Override
 	public List<Hexagon> MostrarTauler(int idPartida) {
 		Session session = sessionFactory.getCurrentSession();
@@ -237,7 +239,7 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 				.getResultList();
 	}
 	
-
+	//----------------------------------------------------------
 	@Override
 	public String TirarDaus(int idPartida) {
 		Session session = sessionFactory.getCurrentSession();
@@ -258,6 +260,8 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		return "";
 	}
 
+	//----------------------------------------------------------
+	
 	@Override
 	public void ComprovarVictoria(int idPartida) {
 		Session session = sessionFactory.getCurrentSession();
@@ -295,7 +299,11 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		}
 		return punts;
 	}
-		
+	
+	//----------------------------------------------------------
+	
+
+	
 	
 	//============================
 	//  	  AUXILIARS
@@ -305,6 +313,39 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		return session.createQuery("FROM " + classe.getName() + " e WHERE e.codi = :codi", classe)
 				.setParameter("codi", codi)
 				.uniqueResult();
+	}
+	
+	private void prepararCartes(Partida partida) {
+		List<CartaDesenvolupament> pila = new ArrayList<>();
+		
+		// Bucle per a les cartes de CAVALLERS
+		for(int i = 0; i < 14; i++) {
+			CartaDesenvolupament cavallers = new CartaDesenvolupament();
+			cavallers.setTipus(TipusCarta.CAVALLER);
+			cavallers.setPartida(partida);
+			pila.add(cavallers);
+		}
+		
+		// Bucle per a les cartes de PUNT_VICTORIA
+		for(int i = 0; i < 5; i++) {
+			CartaDesenvolupament puntVictoria = new CartaDesenvolupament();
+			puntVictoria.setTipus(TipusCarta.PUNT_VICTORIA);
+			puntVictoria.setPartida(partida);
+			pila.add(puntVictoria);
+		}
+		
+		// Bucle per a les cartes de MONOPOLI
+		for(int i = 0; i < 2; i++) {
+			CartaDesenvolupament monopoli = new CartaDesenvolupament();
+			monopoli.setTipus(TipusCarta.MONOPOLI);
+			monopoli.setPartida(partida);
+			pila.add(monopoli);
+		}
+		
+		//Barrejem la pila per a que les compres siguin random
+		Collections.shuffle(pila);
+		
+		partida.setPilaCartes(pila);
 	}
 
 
