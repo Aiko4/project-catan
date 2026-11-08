@@ -26,6 +26,7 @@ import jakarta.validation.constraints.NotNull;
 		            "LEFT JOIN FETCH a.jugador " +
 		            "WHERE h.partida_id.id = :idPartida"
 )})
+
 public class Hexagon {
 
 	//Atributs
