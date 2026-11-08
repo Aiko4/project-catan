@@ -20,17 +20,17 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Construccio {
 
-	//Atributs
+	// Atributs
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	//Relacions
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "id_jugador")
+	// Relacions
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "id_jugador", nullable = false)
 	private Jugador jugador;
 
-	//Constructor
+	// Constructor
 	public Construccio() {
 	}
 
@@ -38,7 +38,7 @@ public abstract class Construccio {
 		this.jugador = jugador;
 	}
 
-	//Get Set
+	// Getters i setters
 	public Integer getId() {
 		return id;
 	}
@@ -57,16 +57,15 @@ public abstract class Construccio {
 
 	@Override
 	public boolean equals(Object o) {
+		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
+
 		Construccio that = (Construccio) o;
-		return id == that.id;
+		return Objects.equals(id, that.id);
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(id);
 	}
-
-	///Falta toString() Format eclipse
-	///Verificar herència
 }

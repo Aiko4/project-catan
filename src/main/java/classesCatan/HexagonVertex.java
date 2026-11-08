@@ -28,13 +28,13 @@ public class HexagonVertex {
 	private Integer posicio;
 
 	//Relacions
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "hexagon_id")
-    private Hexagon hexagon;
-	
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "vertex_id")
-    private Vertex vertex;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "hexagon_id", nullable = false)
+	private Hexagon hexagon;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "vertex_id", nullable = false)
+	private Vertex vertex;
 
     // constructor hibernate
     public HexagonVertex() {

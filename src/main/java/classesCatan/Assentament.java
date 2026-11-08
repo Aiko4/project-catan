@@ -19,56 +19,26 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "assentament")
 public abstract class Assentament extends Construccio {
-	//Atributs
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 
-	//Relacions
+	// Relacions
 	@OneToOne
-	@JoinColumn(name="vertex_id",unique = true, nullable = false)
+	@JoinColumn(name = "vertex_id", unique = true, nullable = false)
 	private Vertex vertex;
 
-	//Constructors
+	// Constructors
 	public Assentament() {
 	}
 
 	public Assentament(Vertex vertex) {
-		this.vertex=vertex;
+		this.vertex = vertex;
 	}
 
-	//Get Set
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
+	// Getters i setters de Vertex
 	public Vertex getVertex() {
 		return vertex;
 	}
 
 	public void setVertex(Vertex vertex) {
 		this.vertex = vertex;
-	}
-
-
-	@Override
-	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		Assentament that = (Assentament) o;
-		return Objects.equals(id, that.id);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(id);
-	}
-
-	@Override
-	public String toString() {
-		return "Assentament [id=" + id + ", vertex=" + vertex + ", tipus=" + "]";
 	}
 }

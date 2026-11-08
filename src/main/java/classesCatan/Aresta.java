@@ -31,17 +31,17 @@ public class Aresta {
 	private Integer codi;
 
 	//Relacions
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "partida_id")
-	private Partida partida_id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "partida_id", nullable = false)
+    private Partida partida_id;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "id_vertexA")
-	private Vertex vertexA;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_vertexA", nullable = false)
+    private Vertex vertexA;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "id_vertexB")
-	private Vertex vertexB;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_vertexB", nullable = false)
+    private Vertex vertexB;
 
 	@OneToOne(mappedBy = "aresta")
 	private Carretera carretera;

@@ -70,7 +70,11 @@ public class RecursJugador {
 	}
 
 	public void setQuantitat(Integer quantitat) {
-		this.quantitat = quantitat;
+		if(quantitat<=0){
+			this.quantitat=0;
+		}else {
+			this.quantitat = quantitat;
+		}
 	}
 
 	public Jugador getJugador() {

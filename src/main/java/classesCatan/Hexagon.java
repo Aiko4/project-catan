@@ -51,7 +51,7 @@ public class Hexagon {
 
 	//Relacions
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "partida_id")
+	@JoinColumn(name = "partida_id", nullable = false)
 	private Partida partida_id;
 
 	@OneToMany(mappedBy = "hexagon", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
