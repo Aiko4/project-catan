@@ -52,6 +52,8 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 
 		//Barrejar noms, assignar colors i ordre
 		prepararJugadors(nomsJugadors,partida);
+		
+		prepararCartes(partida);
 
 		//INSERT de partida a la BBDD
 		PartidaDao partidaDao=new PartidaDao();
@@ -473,6 +475,7 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		partida.setPilaCartes(pila);
 	}
 
+	// hauria de ser private
 	public int calcularPuntsJugador(Jugador j) {
 		int punts = 0;
 		for (Construccio c : j.getConstruccionsJugador()) {
@@ -482,6 +485,24 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		return punts;
 	}
 	
+	// hauria de ser private
+	public Partida obtenirPartida(int idPartida) {
+	    Session session = sessionFactory.getCurrentSession();
+
+	    try {
+	        session.beginTransaction();
+
+	        Partida partida = session.get(Partida.class, idPartida);
+
+	        session.getTransaction().commit();
+
+	        return partida;
+
+	    } catch (RuntimeException e) {
+	        handleException(session, e);
+	        throw e;
+	    }
+	}
 	
 
 }

@@ -20,16 +20,27 @@ public class Main {
 			System.out.print("Introdueix la quantitat de punts per guanyar: ");
 			int puntsPerGuanyar = getInt(1,100);
 			ArrayList <String> nomsJugadors=nombrarJugadors();
+			
 			titol("CREANT PARTIDA...");
 			Integer idPartida = pDao.IniciarPartida(nomsJugadors, puntsPerGuanyar);
 			System.out.println("Id de la partida creada: "+idPartida);	
+			
+			// obtenim la partida creada
+			Partida p = obtenirPartida(pDao, idPartida);
+			
+			// obtenir un jugador (per exemple el 1)
+			Jugador j = jDao.obtenirJugador(1);
+
+
 			titol("MOSTRANT TAULER...");
 			mostrarTaulerMain(pDao, idPartida);
+			
 			titol("MOSTRANT RECURSOS...");
 			mostrarRecursosMain(jDao, 1);
 			mostrarRecursosMain(jDao, 2);
 			mostrarRecursosMain(jDao, 3);
 			mostrarRecursosMain(jDao, 4);
+			
 			titol("MOSTRANT PARTIDA...");
 			mostrarPartida(pDao,idPartida);
 			
@@ -37,9 +48,13 @@ public class Main {
 		} finally {
 			SessionManager.tancar();
 		}
-
 	}
+		
 	
+	private static Partida obtenirPartida(PartidaDao pDao, int idPartida) {
+		Partida p = pDao.obtenirPartida(idPartida);
+		return p;		
+	}
 
 	private static void mostrarTaulerMain(PartidaDao pDao, int idPartida) {
 		List<Hexagon> hexagons = pDao.MostrarTauler(idPartida);

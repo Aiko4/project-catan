@@ -3,15 +3,12 @@
 	import classesCatan.*;
 
 	import java.util.List;
+import java.util.Set;
 
-	import enums.EstatPartida;
+import enums.EstatPartida;
 	import org.hibernate.Session;
 
-	import classesCatan.Carretera;
-	import classesCatan.Ciutat;
-	import classesCatan.Jugador;
-	import classesCatan.Poblat;
-	import enums.TipusRecurs;
+import enums.TipusRecurs;
 
 	public class JugadorDao extends GenericDao<Jugador, Integer> implements IJugadorDao{
 
@@ -562,7 +559,6 @@
 		}
 		
 
-
 		//==========================================================
 		//                         Utils
 		//==========================================================
@@ -572,5 +568,19 @@
 					.setParameter("id", id)
 					.uniqueResult();
 		}
+		
+		
+		public Jugador obtenirJugador(int idJugador) {
+		    Session session = sessionFactory.getCurrentSession();
 
+		    try {
+		        session.beginTransaction();
+		        Jugador jugador = session.get(Jugador.class, idJugador);
+		        session.getTransaction().commit();
+		        return jugador;
+		    } catch (RuntimeException e) {
+		        handleException(session, e);
+		        throw e;
+		    }
+		}
 	}
