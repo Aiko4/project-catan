@@ -1,14 +1,16 @@
 package classesCatan;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "carretera")
+@NamedQuery(
+		name = "Carretera.numCarreteresJugador",
+		query = "SELECT COUNT(c) FROM Carretera c WHERE c.jugador.id = :id"
+)
 public class Carretera extends Construccio {
 
-	//Relacions
+
+    //Relacions
 	@OneToOne
     @JoinColumn(name = "id_aresta", unique = true, nullable = false)
 	private Aresta aresta;

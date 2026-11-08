@@ -32,7 +32,7 @@ import jakarta.validation.constraints.PastOrPresent;
 @NamedQuery(
 		name = "Partida.infoPartida",
 		query = "SELECT p " + 
-				"FROM Partida " + 
+				"FROM Partida p " +
 				"WHERE p.id = :id"
 )
 public class Partida {

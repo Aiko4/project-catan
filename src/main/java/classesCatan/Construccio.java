@@ -18,7 +18,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "construccio")
 @Inheritance(strategy = InheritanceType.JOINED)
-abstract class Construccio {
+public abstract class Construccio {
 
 	//Atributs
 	@Id

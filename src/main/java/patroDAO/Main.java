@@ -27,6 +27,12 @@ public class Main {
 			mostrarTaulerMain(pDao, idPartida);
 			titol("MOSTRANT RECURSOS...");
 			mostrarRecursosMain(jDao, 1);
+			mostrarRecursosMain(jDao, 2);
+			mostrarRecursosMain(jDao, 3);
+			mostrarRecursosMain(jDao, 4);
+			titol("MOSTRANT PARTIDA...");
+			mostrarPartida(pDao,idPartida);
+
 		} finally {
 			SessionManager.tancar();
 		}
@@ -38,7 +44,6 @@ public class Main {
 		List<Hexagon> hexagons = pDao.MostrarTauler(idPartida);
 
 	    for (Hexagon h : hexagons) {
-
 	        System.out.println("Terreny: " + h.getTerreny());
 	        System.out.println("Número: " + h.getNumero());
 
@@ -52,22 +57,29 @@ public class Main {
 	                        v.getAssentament().getJugador());
 	            }
 	        }
+			System.out.println("");
 	    }
 	}
 	
 	private static void mostrarRecursosMain(JugadorDao jDao, int idJugador) {
+		if(jDao.get(idJugador)==null){
+			//Si el jugador no existeix no fa res
+			return;
+		}
 		
 		List<RecursJugador> recursosJugador = jDao.MostrarRecursos(idJugador);
 		System.out.println("Jugador amb ID: " + idJugador);
 		
 		for (RecursJugador rj : recursosJugador) {
 			
-			System.out.println("Tipus de recurs: " + rj.getTipus());
-			System.out.println("Quantitat: " + rj.getQuantitat());
+			System.out.println("  "+rj.getTipus()+": " + rj.getQuantitat());
 		}
 		
 	}
-	
+
+	private static void mostrarPartida(PartidaDao pDao, int idPartida){
+		pDao.MostrarPartida(idPartida);
+	}
 	//Recull de 2 a 4 noms diferents en un ArrayList
 	private static ArrayList<String> nombrarJugadors() {
 		ArrayList <String> noms=new ArrayList<>();
@@ -112,7 +124,7 @@ public class Main {
 
 
 	//============================
-	//          Auxiliars
+	//          Scanners
 	//============================
 	public static int getInt() {
 		int i=0;

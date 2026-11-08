@@ -15,6 +15,12 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name="jugador")
 @NamedQueries({
+		@NamedQuery(
+				name = "Jugador.infoJugador",
+				query = "SELECT j " +
+						"FROM Jugador j " +
+						"WHERE j.id = :id"
+		),
 	@NamedQuery(
 			name = "Jugador.buscarRecursos",
 			query = "SELECT i " + 

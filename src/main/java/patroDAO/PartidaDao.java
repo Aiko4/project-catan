@@ -1,12 +1,7 @@
 package patroDAO;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.hibernate.Session;
 
@@ -175,18 +170,46 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 		Partida p = session.createNamedQuery("Partida.infoPartida", Partida.class)
 				.setParameter("id", idPartida)
 				.uniqueResult();
-		
-		// retorna els jugadors amb les seves construccions
-		List<Jugador> jugadors = session.createNamedQuery("Jugador.construccionsPerJugador", Jugador.class)
-				.setParameter("idPartida", idPartida)
-				.getResultList();
-		
-		
-		// per cada jugador es fa recompte de recursos
-		for (Jugador j: jugadors) {
-			List<Object[]> recursos = session.createNamedQuery("Jugador.numRecursosJugadors", Object[].class)
-					.setParameter("id", j.getId())
-					.getResultList();
+		if (p==null) return;
+		System.out.println("Partida amb ID: " + idPartida);
+		System.out.println("Estat: " + p.getEstatPartida());
+		System.out.println("Ronda: " + p.getRonda());
+
+		System.out.println("Id de Jugador actiu: " + (p.getActiu()==null ? "No hi ha cap jugador actiu": p.getActiu().getId()));
+
+		System.out.println("Última tirada: " + ( p.getUltimaTirada()==null ? "No hi han haut tirades encara":p.getUltimaTirada()));
+		System.out.println("");
+
+
+
+		// per agafar els jugadors no cal consulta
+		Set<Jugador> jugadors = p.getJugadors();
+		for (Jugador j:jugadors){
+
+			int poblats=0;
+			int ciutats=0;
+			int carreteres=0;
+			List<Construccio> construccions=j.getConstruccionsJugador();
+			for (Construccio c:construccions){
+				if(c instanceof Poblat) poblats++;
+				if (c instanceof Ciutat) ciutats++;
+				if (c instanceof Carretera) carreteres++;
+			}
+			int totalRecursos=0;
+			Map<TipusRecurs,RecursJugador> inv=j.getInventari();
+			for (RecursJugador rj:inv.values()){
+				totalRecursos+=rj.getQuantitat();
+			}
+			System.out.println("Jugador amb id: "+j.getId());
+			//Calcular els punts del jugador (cartes desenvolupament)
+			System.out.println("  Punts: ?");
+			System.out.println("  Poblats: "+poblats);
+			System.out.println("  Ciutats: "+ciutats);
+			System.out.println("  Carreteres: "+carreteres);
+			System.out.println("  Total de recursos: "+totalRecursos);
+
+
+
 		}
 	}
 
@@ -248,7 +271,7 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 	}
 	
 	private void ComprovarVictoria(Session session, int idPartida) {
-		
+		//Falta fer
 		
 	}
 	
