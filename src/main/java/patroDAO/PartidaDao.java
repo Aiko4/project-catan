@@ -271,9 +271,31 @@ public class PartidaDao extends GenericDao<Partida, Integer> implements IPartida
 	}
 	
 	private void ComprovarVictoria(Session session, int idPartida) {
-		//Falta fer
+		Partida partida = session.get(Partida.class, idPartida);
 		
+		if (partida == null || partida.getEstatPartida() == EstatPartida.FINALITZADA) { 
+			return;
+		}
+		
+		for(Jugador j: partida.getJugadors()) {
+			int punts = calcularPuntsJugador(j);
+			if(punts >= partida.getPuntsPerGuanyar()) {
+				partida.setEstatPartida(EstatPartida.FINALITZADA);
+				System.out.println("PARTIDA FINALITZADA. El jugador " + j.getNom() + " ha guanyat amb " + punts + " punts.");
+				break;
+			}
+		}
 	}
+	
+	public int calcularPuntsJugador(Jugador j) {
+		int punts = 0;
+		for (Construccio c : j.getConstruccionsJugador()) {
+			if (c instanceof Poblat) punts += 1;
+			if (c instanceof Ciutat) punts += 2;
+		}
+		return punts;
+	}
+		
 	
 	//============================
 	//  	  AUXILIARS

@@ -384,9 +384,54 @@
 		}
 
 		private void ComerciarBanca(Session session, int idJugador, TipusRecurs dona, TipusRecurs rep) {
-
-
+			
+			//Comprovacions de seguretat. Validacio dels recursos
+			
+			if(dona == null || rep == null || dona == rep) {
+				return;
+			}
+			
+			Jugador jugador = session.get(Jugador.class, idJugador);
+			
+			if (jugador == null) { 
+				return;
+			}
+			
+			Partida partida = jugador.getPartida_id();
+			if (partida == null) { 
+				return; 
+			}
+			
+			//Comprovacions de seguretat. Validacio de l'estat de la partida.
+			if (partida.getEstatPartida() == EstatPartida.FINALITZADA) { 
+				return;
+			}
+			
+			//Comprovacions de seguretat. Validacio de torn i de llançada de daus.
+			if (partida.getActiu() == null || partida.getActiu().getId() != idJugador || !partida.isDausTirats()) {
+				return;
+			}
+			
+			RecursJugador rjDona = jugador.getInventari().get(dona);
+			RecursJugador rjRep = jugador.getInventari().get(rep);
+			
+			//Comprovacions de seguretat. Validacio dels recursos (si té menys de 4, es cancel·la)
+			if(rjDona == null || rjDona.getQuantitat() < 4) {
+				return;
+			}
+			
+			//Intercanvi en cas d'èxit.
+			rjDona.setQuantitat(rjDona.getQuantitat() - 4);
+			if (rjRep == null) {
+				rjRep = new RecursJugador(rep, 0);
+				rjRep.setJugador(jugador);
+				jugador.getInventari().put(rep, rjRep);
+			}
+			rjRep.setQuantitat(rjRep.getQuantitat() + 1);
 		}
+			
+			
+		
 
 		//----------------------------------------------------------
 
@@ -403,8 +448,48 @@
 		}
 
 		private void PassarTorn(Session session, int idJugador) {
+			Jugador jugador = session.get(Jugador.class, idJugador);
+			
+			if (jugador == null) { 
+				return;
+			}
+			
+			// Rebutjar si la partida ha finalitzat
+			Partida partida = jugador.getPartida_id();
+			if (partida == null) { 
+				return; 
+			}
+			
+			// Comprovacions de seguretat. Si encara es el torn del jugador
+			if (partida.getActiu() == null || partida.getActiu().getId() != idJugador) { 
+				return; 
+			}
+			
+			// Comprovacions de seguretat. Si no s'han tirat els daus prèviament.
+			if(!partida.isDausTirats()) {
+				return;
+			}
+			
+			int seguentTorn = jugador.getOrdreTorn() + 1;
+			
+			//Quan hagin passat tots els torns, tornem al primer i anem incrementant.
+			if(seguentTorn > partida.getJugadors().size()) {
+				seguentTorn = 1;
+				partida.setRonda(partida.getRonda() + 1);
+			}
+			
+			//Assignar el nou jugador actiu amb un bucle.
+			for (Jugador j : partida.getJugadors()) {
+				if (j.getOrdreTorn() == seguentTorn) {
+					partida.setActiu(j);
+					break;
+				}
+			}
+			
+			//Reiniciar el daus.
+			partida.setDausTirats(false);
 
-
+			
 		}
 
 
